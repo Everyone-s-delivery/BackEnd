@@ -51,6 +51,7 @@ public class SignService {
      * @param password
      * @return
      */
+    //TODO: email, password 말고 더 많은 정보를 받자(주소, 관심주소...)
     public CommonResult signup(String email, String password) {
         if(userRepository.findByEmail(email) != null)
             throw new SignFailedException("email overlap");
