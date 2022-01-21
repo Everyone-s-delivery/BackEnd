@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final JwtTokenProvider jwtTokenProvider;
+
 
 	@Bean
 	@Override
@@ -33,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증하므로 세션은
 																							// 필요없으므로 생성안함.
 				.and().authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-				.antMatchers("/signin", "/signup","/JWTException/**","/actuator").permitAll() // 가입 및 인증 주소는 누구나 접근가능
+				.antMatchers("/swagger-ui/**", "/signin", "/signup","/JWTException/**","/actuator").permitAll() // 가입 및 인증 주소는 누구나 접근가능
 				.antMatchers("/users","/users/*").hasRole("ADMIN")
 				.anyRequest().hasAnyRole("USER", "ADMIN") // 그외 나머지 요청은 모두 인증된 회원(사용자 + 관리자)만 접근 가능
 				.and()

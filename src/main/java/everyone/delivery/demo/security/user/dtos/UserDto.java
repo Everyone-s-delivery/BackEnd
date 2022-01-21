@@ -1,6 +1,7 @@
 package everyone.delivery.demo.security.user.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import everyone.delivery.demo.address.Address;
 import everyone.delivery.demo.address.InterestedAddress;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRole;
@@ -12,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,13 +26,30 @@ import java.util.List;
 @Builder
 public class UserDto implements UserDetails {
 
-    private Long userId;
+    @NotNull
+    @Email
     private String email;
+
+    @NotNull
     private String password;
-    private List<UserRole> roles;
+
+    @NotNull
     private Address address;
+
+    @NotNull
     private List<InterestedAddress> interestedAddress;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long userId;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<UserRole> roles;
+
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private LocalDateTime regDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime updateDate;
 
 

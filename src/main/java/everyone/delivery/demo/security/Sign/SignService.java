@@ -9,6 +9,7 @@ import everyone.delivery.demo.security.Sign.model.SignInResult;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import everyone.delivery.demo.security.user.UserRole;
+import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,15 +46,10 @@ public class SignService {
                 jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId()));
     }
 
-    /***
-     * 회원가입
-     * @param email
-     * @param password
-     * @return
-     */
+
     //TODO: email, password 말고 더 많은 정보를 받자(주소, 관심주소...)
-    public CommonResult signup(String email, String password) {
-        if(userRepository.findByEmail(email) != null)
+    public CommonResult signup(UserDto userDto) {
+        if(userRepository.findByEmail(userDto.getEmail()) != null)
             throw new SignFailedException("email overlap");
 
         List<UserRole> roles = new ArrayList<>();
@@ -61,11 +57,13 @@ public class SignService {
         roles.add(UserRole.RECRUITER);
 
         UserEntity userEntity = UserEntity.builder()
-                .email(email)
-                .password(passwordEncoder.encode(password))
+                .email(userDto.getEmail())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .address(userDto.getAddress())
+                .interestedAddress(userDto.getInterestedAddress())
                 .roles(roles).build();
 
-        userRepository.save(userEntity);
-        return responseService.getSingleResult(userEntity.getUserId());
+        userEntity = userRepository.save(userEntity);
+        return responseService.getSingleResult(userEntity);
     }
 }

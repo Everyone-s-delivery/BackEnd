@@ -1,6 +1,5 @@
 package everyone.delivery.demo.address;
 
-import everyone.delivery.demo.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

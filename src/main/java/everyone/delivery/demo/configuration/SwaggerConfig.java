@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author gshgsh0831
  * **/
 @Configuration
-@EnableSwagger2
+//@EnableSwagger2
 public class SwaggerConfig {
 	
 	@Bean
@@ -30,7 +30,7 @@ public class SwaggerConfig {
 		ApiSelectorBuilder apis = docket.
 				select().
 				apis(RequestHandlerSelectors.
-						basePackage("nk.demo.BlogAPIServer"));
+						basePackage("everyone.delivery.demo"));
 		apis.paths(PathSelectors.ant("/**"));
 		return apis.build();
 	}

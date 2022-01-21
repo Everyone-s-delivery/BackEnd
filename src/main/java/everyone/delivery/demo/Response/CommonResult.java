@@ -1,11 +1,11 @@
 package everyone.delivery.demo.Response;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class CommonResult {
 
     @ApiModelProperty(value = "응답 성공여부 : true/false")
