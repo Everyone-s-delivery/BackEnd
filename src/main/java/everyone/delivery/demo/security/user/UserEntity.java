@@ -1,5 +1,6 @@
 package everyone.delivery.demo.security.user;
 
+
 import everyone.delivery.demo.address.Address;
 import everyone.delivery.demo.address.InterestedAddress;
 import lombok.*;
@@ -41,8 +42,8 @@ public class UserEntity {
     @Embedded
     private Address address;
 
-    @Embedded
-    private InterestedAddress interestedAddress;
+    @ElementCollection
+    private List<InterestedAddress> interestedAddress;
 
     @CreatedDate
     @Column(updatable = false)
