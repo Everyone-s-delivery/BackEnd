@@ -1,8 +1,8 @@
 package everyone.delivery.demo.security.user;
 
-import everyone.delivery.demo.Response.ListResult;
-import everyone.delivery.demo.Response.ResponseService;
-import everyone.delivery.demo.Response.SingleResult;
+import everyone.delivery.demo.common.response.ListResult;
+import everyone.delivery.demo.common.response.ResponseService;
+import everyone.delivery.demo.common.response.SingleResult;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import io.swagger.annotations.Api;

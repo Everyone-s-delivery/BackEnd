@@ -1,5 +1,5 @@
 package everyone.delivery.demo.security.user;
-import everyone.delivery.demo.exception.ClientDataValidationException;
+import everyone.delivery.demo.common.exception.ClientDataValidationException;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;

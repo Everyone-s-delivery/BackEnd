@@ -1,9 +1,8 @@
 package everyone.delivery.demo.security.Sign;
 
-import everyone.delivery.demo.Response.CommonResult;
-import everyone.delivery.demo.Response.ResponseService;
-import everyone.delivery.demo.Response.SingleResult;
-import everyone.delivery.demo.exception.SignFailedException;
+import everyone.delivery.demo.common.response.ResponseService;
+import everyone.delivery.demo.common.response.SingleResult;
+import everyone.delivery.demo.common.exception.SignFailedException;
 import everyone.delivery.demo.security.JWT.JwtTokenProvider;
 import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.UserEntity;

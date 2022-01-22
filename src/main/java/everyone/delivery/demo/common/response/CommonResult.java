@@ -1,4 +1,4 @@
-package everyone.delivery.demo.Response;
+package everyone.delivery.demo.common.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

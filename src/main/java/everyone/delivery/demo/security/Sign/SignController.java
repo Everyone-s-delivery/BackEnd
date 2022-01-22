@@ -1,8 +1,7 @@
 package everyone.delivery.demo.security.Sign;
 
-import everyone.delivery.demo.Response.CommonResult;
-import everyone.delivery.demo.Response.SingleResult;
-import everyone.delivery.demo.exception.CustomNullPointException;
+import everyone.delivery.demo.common.response.SingleResult;
+import everyone.delivery.demo.common.exception.CustomNullPointException;
 import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;

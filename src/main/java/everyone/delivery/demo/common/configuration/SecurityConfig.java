@@ -1,4 +1,4 @@
-package everyone.delivery.demo.configuration;
+package everyone.delivery.demo.common.configuration;
 
 import everyone.delivery.demo.security.CustomAccessDeniedHandler;
 import everyone.delivery.demo.security.CustomAuthenticationEntryPoint;
