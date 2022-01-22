@@ -86,12 +86,9 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @param userDto
 	 * @return
 	 * **/
-	public Long update(Long userId, BasicUserDto userDto) {
+	public UserDto update(Long userId, BasicUserDto userDto) {
 		if(userId <= 0)
 			throw new ClientDataValidationException("userId cannot be minus.");
-
-		if(userDto.getEmail() == null || userDto.getPassword() == null)
-			throw new ClientDataValidationException("Not enough user data.");
 
 		if(userRepository.findByuserId(userId) ==null)
 			throw new ClientDataValidationException("There is no corresponding information for userId.");
@@ -99,8 +96,8 @@ public class CustomUserDetailService implements UserDetailsService {
 		UserEntity userEntity = userDto.toEntity();
 		userEntity.setUserId(userId);
 		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		userRepository.save(userEntity);
-		return userEntity.getUserId();
+		userEntity = userRepository.save(userEntity);
+		return userEntity.toDTO();
 	}
 	
 	
@@ -110,13 +107,15 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	@Transactional
-	public Long delete(Long userId) {
+	public UserDto delete(Long userId) {
 		if(userId <= 0) 
 			throw new ClientDataValidationException("userId cannot be minus.");
-		if(userRepository.findByuserId(userId) ==null)
+		UserEntity userEntity = userRepository.findByuserId(userId);
+		if(userEntity ==null)
 			throw new ClientDataValidationException("There is no corresponding information for userId.");
 		userRepository.deleteByUserId(userId);
-		return userId;
+		UserDto userDto = userEntity.toDTO();
+		return userDto;
 	}
 
 

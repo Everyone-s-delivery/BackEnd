@@ -78,7 +78,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public SingleResult<Long> update(@PathVariable Long userId, @RequestBody BasicUserDto userDto) {
+	public SingleResult<UserDto> update(@PathVariable Long userId, @RequestBody BasicUserDto userDto) {
 		return responseService.getSingleResult(customUserDetailService.update(userId ,userDto));
 	}
 	
@@ -93,7 +93,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public SingleResult<Long> delete(@PathVariable Long userId) {
+	public SingleResult<UserDto> delete(@PathVariable Long userId) {
 		return responseService.getSingleResult(customUserDetailService.delete(userId));
 	}
 }

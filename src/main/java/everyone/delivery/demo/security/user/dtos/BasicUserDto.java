@@ -28,17 +28,17 @@ import java.util.List;
 @Builder
 public class BasicUserDto {
 
-    @NotNull
+    @NotNull(message = "Not enough user data.")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull
+    @NotNull(message = "Not enough user data.")
     private String password;
 
-    @NotNull
+    @NotNull(message = "Not enough user data.")
     private Address address;
 
-    @NotNull
+    @NotNull(message = "Not enough user data.")
     private List<InterestedAddress> interestedAddress;
 
     public UserEntity toEntity(){

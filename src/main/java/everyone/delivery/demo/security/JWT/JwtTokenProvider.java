@@ -22,11 +22,11 @@ import java.util.List;
 
 /**
  * 참고 링크: https://daddyprogrammer.org/post/636/springboot2-springsecurity-authentication-authorization/
- *
+ * JWT 토큰을 생성 및 검증 모듈
  * **/
 @RequiredArgsConstructor
 @Component
-public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
+public class JwtTokenProvider {
 
     @Value("spring.jwt.secret")
     private String secretKey;
