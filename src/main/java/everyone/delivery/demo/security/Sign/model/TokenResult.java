@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInResult{
+public class TokenResult {
     private String token;
     private Long userId;
 }

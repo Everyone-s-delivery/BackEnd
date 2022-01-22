@@ -66,20 +66,20 @@ public class CustomUserDetailService implements UserDetailsService {
 		return convertEntityToDto(userEntity);
 	}
 
-	/**
-	 * 하나의 사용자 등록
-	 * @param userDto
-	 * @return
-	 * **/
-	public Long save(BasicUserDto userDto) {
-		if(userDto.getEmail() == null || userDto.getPassword() == null || userDto.getRoles() == null)
-			throw new ClientDataValidationException("Not enough user data.");
-
-		UserEntity userEntity = userDto.toEntity();
-		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		userRepository.save(userEntity);
-		return userEntity.getUserId();
-	}
+//	/**
+//	 * 하나의 사용자 등록
+//	 * @param userDto
+//	 * @return
+//	 * **/
+//	public Long save(BasicUserDto userDto) {
+//		if(userDto.getEmail() == null || userDto.getPassword() == null || userDto.getRoles() == null)
+//			throw new ClientDataValidationException("Not enough user data.");
+//
+//		UserEntity userEntity = userDto.toEntity();
+//		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+//		userRepository.save(userEntity);
+//		return userEntity.getUserId();
+//	}
 	
 	/**
 	 * {userId}에 해당하는 사용자 수정
@@ -90,7 +90,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		if(userId <= 0)
 			throw new ClientDataValidationException("userId cannot be minus.");
 
-		if(userDto.getEmail() == null || userDto.getPassword() == null || userDto.getRoles() == null)
+		if(userDto.getEmail() == null || userDto.getPassword() == null)
 			throw new ClientDataValidationException("Not enough user data.");
 
 		if(userRepository.findByuserId(userId) ==null)

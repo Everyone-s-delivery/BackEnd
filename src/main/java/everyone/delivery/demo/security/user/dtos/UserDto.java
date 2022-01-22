@@ -26,8 +26,10 @@ import java.util.List;
 @Builder
 public class UserDto implements UserDetails {
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long userId;
+
     @NotNull
-    @Email
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -40,19 +42,11 @@ public class UserDto implements UserDetails {
     @NotNull
     private List<InterestedAddress> interestedAddress;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long userId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<UserRole> roles;
 
+    private LocalDateTime regDate;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private LocalDateTime regDate;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime updateDate;
-
 
     public UserEntity toEntity(){
         return UserEntity.builder()

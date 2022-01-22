@@ -5,10 +5,11 @@ import everyone.delivery.demo.Response.ResponseService;
 import everyone.delivery.demo.Response.SingleResult;
 import everyone.delivery.demo.exception.SignFailedException;
 import everyone.delivery.demo.security.JWT.JwtTokenProvider;
-import everyone.delivery.demo.security.Sign.model.SignInResult;
+import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import everyone.delivery.demo.security.user.UserRole;
+import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +35,7 @@ public class SignService {
      * @param password
      * @return
      */
-    public SingleResult<SignInResult> signin(String email, String password) {
+    public SingleResult<TokenResult> signin(String email, String password) {
         UserEntity findedUserEntity = userRepository.findByEmail(email);
         if(findedUserEntity == null )
             throw new SignFailedException("login fail, check email");
@@ -42,33 +43,33 @@ public class SignService {
         if (!passwordEncoder.matches(password, findedUserEntity.getPassword()))
             throw new SignFailedException("login fail, check password");
 
-        return responseService.getSingleResult(new SignInResult(
+        return responseService.getSingleResult(new TokenResult(
                 jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId()));
     }
 
     /***
      * 회원가입
-     * @param userDto
+     * @param basicUserDto
      * @return
      */
-    public CommonResult signup(UserDto userDto) {
-        if(userRepository.findByEmail(userDto.getEmail()) != null)
+    public SingleResult<UserDto> signup(BasicUserDto basicUserDto) {
+        if(userRepository.findByEmail(basicUserDto.getEmail()) != null)
             throw new SignFailedException("email overlap");
 
         List<UserRole> roles = new ArrayList<>();
         roles.add(UserRole.ROLE_PARTICIPANTS);
         roles.add(UserRole.ROLE_RECRUITER);
-        if(userDto.getEmail().equals("admin"))
+        if(basicUserDto.getEmail().equals("admin"))
             roles.add(UserRole.ROLE_ADMIN);
 
         UserEntity userEntity = UserEntity.builder()
-                .email(userDto.getEmail())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .address(userDto.getAddress())
-                .interestedAddress(userDto.getInterestedAddress())
+                .email(basicUserDto.getEmail())
+                .password(passwordEncoder.encode(basicUserDto.getPassword()))
+                .address(basicUserDto.getAddress())
+                .interestedAddress(basicUserDto.getInterestedAddress())
                 .roles(roles).build();
 
         userEntity = userRepository.save(userEntity);
-        return responseService.getSingleResult(userEntity);
+        return responseService.getSingleResult(userEntity.toDTO());
     }
 }

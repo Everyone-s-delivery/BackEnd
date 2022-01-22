@@ -3,6 +3,7 @@ package everyone.delivery.demo.security.user;
 
 import everyone.delivery.demo.address.Address;
 import everyone.delivery.demo.address.InterestedAddress;
+import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -50,4 +51,17 @@ public class UserEntity {
 
     @LastModifiedDate
     private LocalDateTime updateDate;	//수정일자
+
+    public UserDto toDTO(){
+        return UserDto.builder()
+                .userId(userId)
+                .email(email)
+                .password(password)
+                .roles(roles)
+                .address(address)
+                .interestedAddress(interestedAddress)
+                .regDate(regDate)
+                .updateDate(updateDate)
+                .build();
+    }
 }

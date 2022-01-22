@@ -52,19 +52,19 @@ public class UserController {
 		return responseService.getSingleResult(customUserDetailService.getById(userId));
 	}
 	
-	/**
-	 * 하나의 사용자 등록, 등록된 사용자의 userId리턴
-	 * @param userDto
-	 * @return
-	 * **/
-	@PostMapping("")
-	@ApiOperation(value = "신규 사용자 등록", notes = "신규 사용자를 등록합니다.")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
-	})
-	public SingleResult<Long> save(@RequestBody BasicUserDto userDto) {
-		return responseService.getSingleResult(customUserDetailService.save(userDto));
-	}
+//	/**
+//	 * 하나의 사용자 등록, 등록된 사용자의 userId리턴
+//	 * @param userDto
+//	 * @return
+//	 * **/
+//	@PostMapping("")
+//	@ApiOperation(value = "신규 사용자 등록", notes = "신규 사용자를 등록합니다.")
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
+//	})
+//	public SingleResult<Long> save(@RequestBody BasicUserDto userDto) {
+//		return responseService.getSingleResult(customUserDetailService.save(userDto));
+//	}
 
 	
 	/**
