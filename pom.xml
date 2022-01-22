@@ -14,7 +14,7 @@
 	<name>demo</name>
 	<description>Demo project for Everyone-s-delivery</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<swagger.version>2.9.2</swagger.version>
 	</properties>
 	<dependencies>
@@ -99,6 +99,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
 			</plugin>
 		</plugins>
 	</build>
