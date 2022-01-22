@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +22,11 @@ import java.util.List;
 
 /**
  * 참고 링크: https://daddyprogrammer.org/post/636/springboot2-springsecurity-authentication-authorization/
- *
+ * JWT 토큰을 생성 및 검증 모듈
  * **/
 @RequiredArgsConstructor
 @Component
-public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
+public class JwtTokenProvider {
 
     @Value("spring.jwt.secret")
     private String secretKey;
@@ -53,6 +54,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
 
     // Jwt 토큰으로 인증 정보를 조회
+    @Transactional
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

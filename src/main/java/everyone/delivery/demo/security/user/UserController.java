@@ -1,8 +1,8 @@
 package everyone.delivery.demo.security.user;
 
-import everyone.delivery.demo.Response.ListResult;
-import everyone.delivery.demo.Response.ResponseService;
-import everyone.delivery.demo.Response.SingleResult;
+import everyone.delivery.demo.common.response.ListResult;
+import everyone.delivery.demo.common.response.ResponseService;
+import everyone.delivery.demo.common.response.SingleResult;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import io.swagger.annotations.Api;
@@ -52,19 +52,19 @@ public class UserController {
 		return responseService.getSingleResult(customUserDetailService.getById(userId));
 	}
 	
-	/**
-	 * 하나의 사용자 등록, 등록된 사용자의 userId리턴
-	 * @param userDto
-	 * @return
-	 * **/
-	@PostMapping("")
-	@ApiOperation(value = "신규 사용자 등록", notes = "신규 사용자를 등록합니다.")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
-	})
-	public SingleResult<Long> save(@RequestBody BasicUserDto userDto) {
-		return responseService.getSingleResult(customUserDetailService.save(userDto));
-	}
+//	/**
+//	 * 하나의 사용자 등록, 등록된 사용자의 userId리턴
+//	 * @param userDto
+//	 * @return
+//	 * **/
+//	@PostMapping("")
+//	@ApiOperation(value = "신규 사용자 등록", notes = "신규 사용자를 등록합니다.")
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
+//	})
+//	public SingleResult<Long> save(@RequestBody BasicUserDto userDto) {
+//		return responseService.getSingleResult(customUserDetailService.save(userDto));
+//	}
 
 	
 	/**
@@ -78,7 +78,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public SingleResult<Long> update(@PathVariable Long userId, @RequestBody BasicUserDto userDto) {
+	public SingleResult<UserDto> update(@PathVariable Long userId, @RequestBody BasicUserDto userDto) {
 		return responseService.getSingleResult(customUserDetailService.update(userId ,userDto));
 	}
 	
@@ -93,7 +93,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public SingleResult<Long> delete(@PathVariable Long userId) {
+	public SingleResult<UserDto> delete(@PathVariable Long userId) {
 		return responseService.getSingleResult(customUserDetailService.delete(userId));
 	}
 }

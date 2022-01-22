@@ -1,4 +1,4 @@
-package everyone.delivery.demo.configuration;
+package everyone.delivery.demo.common.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;

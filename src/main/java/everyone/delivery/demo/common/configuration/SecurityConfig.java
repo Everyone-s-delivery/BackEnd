@@ -1,4 +1,4 @@
-package everyone.delivery.demo.configuration;
+package everyone.delivery.demo.common.configuration;
 
 import everyone.delivery.demo.security.CustomAccessDeniedHandler;
 import everyone.delivery.demo.security.CustomAuthenticationEntryPoint;
@@ -22,7 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final JwtTokenProvider jwtTokenProvider;
 
-
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -38,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
 				.antMatchers("/swagger-ui/**", "/signin", "/signup","/JWTException/**","/actuator").permitAll() // 가입 및 인증 주소는 누구나 접근가능
 				.antMatchers("/users","/users/*").hasRole("ADMIN")
-				.anyRequest().hasAnyRole("USER", "ADMIN") // 그외 나머지 요청은 모두 인증된 회원(사용자 + 관리자)만 접근 가능
+				.anyRequest().hasAnyRole("PARTICIPANTS", "RECRUITER", "ADMIN") // 그외 나머지 요청은 모두 인증된 회원(사용자 + 관리자)만 접근 가능
 				.and()
 	            .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
 				.and()

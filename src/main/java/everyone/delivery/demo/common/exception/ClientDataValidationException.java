@@ -1,4 +1,4 @@
-package everyone.delivery.demo.exception;
+package everyone.delivery.demo.common.exception;
 
 public class ClientDataValidationException extends RuntimeException{
 

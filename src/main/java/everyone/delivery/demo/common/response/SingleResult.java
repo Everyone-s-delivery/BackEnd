@@ -1,4 +1,4 @@
-package everyone.delivery.demo.Response;
+package everyone.delivery.demo.common.response;
 
 import lombok.Getter;
 import lombok.Setter;

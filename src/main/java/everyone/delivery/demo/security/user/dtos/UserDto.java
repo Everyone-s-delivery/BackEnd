@@ -26,32 +26,27 @@ import java.util.List;
 @Builder
 public class UserDto implements UserDetails {
 
-    @NotNull
-    @Email
-    private String email;
-
-    @NotNull
-    private String password;
-
-    @NotNull
-    private Address address;
-
-    @NotNull
-    private List<InterestedAddress> interestedAddress;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long userId;
 
+    @NotNull(message = "Not enough user data.")
+    private String email;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull(message = "Not enough user data.")
+    private String password;
+
+    @NotNull(message = "Not enough user data.")
+    private Address address;
+
+    @NotNull(message = "Not enough user data.")
+    private List<InterestedAddress> interestedAddress;
+
     private List<UserRole> roles;
 
+    private LocalDateTime regDate;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private LocalDateTime regDate;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private LocalDateTime updateDate;
-
 
     public UserEntity toEntity(){
         return UserEntity.builder()

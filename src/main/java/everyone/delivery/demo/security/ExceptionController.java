@@ -1,8 +1,8 @@
 package everyone.delivery.demo.security;
 
-import everyone.delivery.demo.Response.CommonResult;
-import everyone.delivery.demo.exception.AccessDeniedException;
-import everyone.delivery.demo.exception.AuthenticationEntryPointException;
+import everyone.delivery.demo.common.response.CommonResult;
+import everyone.delivery.demo.common.exception.AccessDeniedException;
+import everyone.delivery.demo.common.exception.AuthenticationEntryPointException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
