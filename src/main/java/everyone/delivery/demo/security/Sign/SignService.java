@@ -46,15 +46,20 @@ public class SignService {
                 jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId()));
     }
 
-
-    //TODO: email, password 말고 더 많은 정보를 받자(주소, 관심주소...)
+    /***
+     * 회원가입
+     * @param userDto
+     * @return
+     */
     public CommonResult signup(UserDto userDto) {
         if(userRepository.findByEmail(userDto.getEmail()) != null)
             throw new SignFailedException("email overlap");
 
         List<UserRole> roles = new ArrayList<>();
-        roles.add(UserRole.PARTICIPANTS);
-        roles.add(UserRole.RECRUITER);
+        roles.add(UserRole.ROLE_PARTICIPANTS);
+        roles.add(UserRole.ROLE_RECRUITER);
+        if(userDto.getEmail().equals("admin"))
+            roles.add(UserRole.ROLE_ADMIN);
 
         UserEntity userEntity = UserEntity.builder()
                 .email(userDto.getEmail())

@@ -30,6 +30,7 @@ public class UserDto implements UserDetails {
     @Email
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     private String password;
 

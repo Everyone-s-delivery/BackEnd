@@ -35,4 +35,5 @@ public class SignController {
 	public CommonResult signup(@RequestBody @ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) UserDto userDto) {
 		return signService.signup(userDto);
 	}
+
 }
