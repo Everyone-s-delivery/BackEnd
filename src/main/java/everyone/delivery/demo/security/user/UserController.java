@@ -32,7 +32,8 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
 	public ListResult<UserDto> getList(){
-		return responseService.getListResult(customUserDetailService.getList());
+
+//		return responseService.getListResult(customUserDetailService.getList());
 	}
 	
 	
