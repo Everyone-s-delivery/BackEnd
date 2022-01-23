@@ -1,6 +1,6 @@
 package everyone.delivery.demo.security;
 
-import everyone.delivery.demo.common.response.CommonResult;
+import everyone.delivery.demo.common.response_old.CommonResult;
 import everyone.delivery.demo.common.exception.AccessDeniedException;
 import everyone.delivery.demo.common.exception.AuthenticationEntryPointException;
 import lombok.RequiredArgsConstructor;

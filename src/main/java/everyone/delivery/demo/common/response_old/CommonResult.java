@@ -1,9 +1,7 @@
-package everyone.delivery.demo.common.response;
+package everyone.delivery.demo.common.response_old;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class CommonResult {
