@@ -1,8 +1,7 @@
 package everyone.delivery.demo.security;
 
-import everyone.delivery.demo.common.response_old.CommonResult;
-import everyone.delivery.demo.common.exception.AccessDeniedException;
-import everyone.delivery.demo.common.exception.AuthenticationEntryPointException;
+import everyone.delivery.demo.common.exception.LogicalRuntimeException;
+import everyone.delivery.demo.common.response.RestError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +16,12 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ExceptionController {
 
 	@GetMapping(value = "/EmptyJWTToken")
-	public CommonResult entrypointException() {
-		throw new AuthenticationEntryPointException("JWT: You do not have permission to access this resource.");
+	public void entrypointException() {
+		throw new LogicalRuntimeException(RestError.NOT_INCLUDE_JWT_TOKEN);
 	}
 	
 	@GetMapping(value = "/accessdenied")
-	public CommonResult accessdeniedException() {
-	        throw new AccessDeniedException("JWT: A resource that can not be accessed with the privileges it has.");
+	public void accessdeniedException() {
+		throw new LogicalRuntimeException(RestError.UNAUTHORIZED_JWT_TOKEN);
 	}
 }

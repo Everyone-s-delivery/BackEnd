@@ -1,5 +1,8 @@
 package everyone.delivery.demo.security.Sign;
 
+import everyone.delivery.demo.common.exception.LogicalRuntimeException;
+import everyone.delivery.demo.common.response.ResponseUtils;
+import everyone.delivery.demo.common.response.RestError;
 import everyone.delivery.demo.common.response_old.SingleResult;
 import everyone.delivery.demo.common.exception.CustomNullPointException;
 import everyone.delivery.demo.security.Sign.model.TokenResult;
@@ -10,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,17 +27,17 @@ public class SignController {
 
 	@ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
 	@PostMapping(value = "/signin")
-	public SingleResult<TokenResult> signin(@ApiParam(value = "이메일", required = true) @RequestParam("email") String email,
-											@ApiParam(value = "비밀번호", required = true) @RequestParam("password") String password) {
+	public ResponseEntity signin(@ApiParam(value = "이메일", required = true) @RequestParam("email") String email,
+								 @ApiParam(value = "비밀번호", required = true) @RequestParam("password") String password) {
 		if(email == null || password == null)
 			throw  new CustomNullPointException("email or password should be included");
-		return signService.signin(email,password);
+		return ResponseUtils.out(signService.signin(email,password));
 	}
 
 	@ApiOperation(value = "가입", notes = "회원가입을 한다.")
 	@PostMapping(value = "/signup")
-	public SingleResult<UserDto>  signup(@RequestBody @ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) BasicUserDto basicUserDto) {
-		return signService.signup(basicUserDto);
+	public ResponseEntity  signup(@RequestBody @ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) BasicUserDto basicUserDto) {
+		return ResponseUtils.out(signService.signup(basicUserDto));
 	}
 
 }

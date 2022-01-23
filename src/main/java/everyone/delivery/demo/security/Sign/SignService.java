@@ -34,7 +34,7 @@ public class SignService {
      * @param password
      * @return
      */
-    public SingleResult<TokenResult> signin(String email, String password) {
+    public TokenResult signin(String email, String password) {
         UserEntity findedUserEntity = userRepository.findByEmail(email);
         if(findedUserEntity == null )
             throw new SignFailedException("login fail, check email");
@@ -42,8 +42,8 @@ public class SignService {
         if (!passwordEncoder.matches(password, findedUserEntity.getPassword()))
             throw new SignFailedException("login fail, check password");
 
-        return responseService.getSingleResult(new TokenResult(
-                jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId()));
+        return new TokenResult(
+                jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId());
     }
 
     /***
@@ -51,7 +51,7 @@ public class SignService {
      * @param basicUserDto
      * @return
      */
-    public SingleResult<UserDto> signup(BasicUserDto basicUserDto) {
+    public UserDto signup(BasicUserDto basicUserDto) {
         if(userRepository.findByEmail(basicUserDto.getEmail()) != null)
             throw new SignFailedException("email overlap");
 
@@ -69,6 +69,6 @@ public class SignService {
                 .roles(roles).build();
 
         userEntity = userRepository.save(userEntity);
-        return responseService.getSingleResult(userEntity.toDTO());
+        return userEntity.toDTO();
     }
 }

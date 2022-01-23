@@ -24,13 +24,11 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	/**
 	 * 전체 사용자 리스트 리턴
+	 * 없으면 빈 리스트 리턴
 	 * @return
 	 * **/
 	public List<UserDto> getList(){
 		List<UserEntity> userEntityList = userRepository.findAll();
-		if(userEntityList.size() == 0)
-			throw new ClientDataValidationException("There is no corresponding information.");
-
 		List<UserDto> userDtoList = new ArrayList<>();
 		for(UserEntity userEntity : userEntityList)
 			userDtoList.add(this.convertEntityToDto(userEntity));
