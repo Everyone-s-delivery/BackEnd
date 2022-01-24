@@ -1,5 +1,6 @@
 package everyone.delivery.demo.common.response;
 
+import everyone.delivery.demo.common.exception.error.CommonError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Response<T> {
     private T data;
-    private CommonRestError error;
+    private CommonError error;
 
     public boolean hasError(){
         return (error != null);

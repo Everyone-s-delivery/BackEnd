@@ -1,4 +1,4 @@
-package everyone.delivery.demo.address;
+package everyone.delivery.demo.domain.address;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

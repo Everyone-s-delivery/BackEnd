@@ -2,7 +2,8 @@ package everyone.delivery.demo.common.exception.advice;
 
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.common.response.CommonRestError;
+import everyone.delivery.demo.common.exception.error.CommonError;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import javax.validation.ConstraintViolationException;
 
-
+@Slf4j
 @RestControllerAdvice(basePackages="everyone.delivery.demo")
 public class CommonControllerAdvice {
 
@@ -28,7 +29,8 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex) {
-        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
+        log.error("errorMsg: {}",ex.getMessage());
+        return ResponseUtils.out(CommonError.BAD_REQUEST);
     }
 
     /***
@@ -38,7 +40,8 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
-        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
+        log.error("errorMsg: {}",ex.getMessage());
+        return ResponseUtils.out(CommonError.BAD_REQUEST);
     }
 
     /***
@@ -48,7 +51,8 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
+        log.error("errorMsg: {}",ex.getMessage());
+        return ResponseUtils.out(CommonError.BAD_REQUEST);
     }
 
     /***
@@ -60,6 +64,7 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(MissingServletRequestPartException.class)
     protected ResponseEntity<?> missingServletRequestPartExceptionHandler(MissingServletRequestPartException ex) {
-        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
+        log.error("errorMsg: {}",ex.getMessage());
+        return ResponseUtils.out(CommonError.BAD_REQUEST);
     }
 }

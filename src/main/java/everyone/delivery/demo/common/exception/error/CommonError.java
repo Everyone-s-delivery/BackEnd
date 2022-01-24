@@ -1,5 +1,6 @@
-package everyone.delivery.demo.common.response;
+package everyone.delivery.demo.common.exception.error;
 
+import everyone.delivery.demo.common.response.ResponseError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -8,12 +9,7 @@ import org.springframework.http.HttpStatus;
  * 미리 정의해 둔 에러들
  */
 @AllArgsConstructor
-@Getter
-public enum CommonRestError {
-//    JWT: You do not have permission to access this resource.
-
-    //user
-
+public enum CommonError implements RestError{
 
     UNAUTHORIZED_JWT_TOKEN(HttpStatus.UNAUTHORIZED,"JWT: 해당 리소스에 접근할 권한이 없습니다.(토큰은 있으나 권한 없음)"),
     NOT_INCLUDE_JWT_TOKEN(HttpStatus.UNAUTHORIZED,"JWT: 해당 리소스에 접근할 권한이 없습니다.(토큰 없음)"),
@@ -24,9 +20,20 @@ public enum CommonRestError {
     private HttpStatus httpStatus;
     private String errorMsg;
 
+    @Override
     public ResponseError toResponseError(){
         return ResponseError.builder()
                 .errorCode(this.name())
                 .errorMessage(this.errorMsg).build();
+    }
+
+    @Override
+    public HttpStatus getHttpStatus() {
+        return this.httpStatus;
+    }
+
+    @Override
+    public String getErrorMsg() {
+        return this.errorMsg;
     }
 }

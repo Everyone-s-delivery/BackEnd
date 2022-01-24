@@ -1,8 +1,8 @@
 package everyone.delivery.demo.security.user.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import everyone.delivery.demo.address.Address;
-import everyone.delivery.demo.address.InterestedAddress;
+import everyone.delivery.demo.domain.address.Address;
+import everyone.delivery.demo.domain.address.InterestedAddress;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRole;
 import lombok.AllArgsConstructor;
@@ -30,6 +30,7 @@ public class UserDto implements UserDetails {
     private Long userId;
 
     @NotNull(message = "Not enough user data. email cannot be null.")
+    @Email(message = "invalid email form.")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

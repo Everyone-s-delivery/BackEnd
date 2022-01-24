@@ -1,8 +1,8 @@
 package everyone.delivery.demo.security.user;
 
 
-import everyone.delivery.demo.address.Address;
-import everyone.delivery.demo.address.InterestedAddress;
+import everyone.delivery.demo.domain.address.Address;
+import everyone.delivery.demo.domain.address.InterestedAddress;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

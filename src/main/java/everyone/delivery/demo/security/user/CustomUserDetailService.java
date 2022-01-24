@@ -1,7 +1,6 @@
 package everyone.delivery.demo.security.user;
-import everyone.delivery.demo.common.exception.ClientDataValidationException;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
-import everyone.delivery.demo.common.response.CommonRestError;
+import everyone.delivery.demo.common.exception.error.CommonError;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +44,11 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto getById(Long userId) {
-		if(userId < 0)
-			throw new ClientDataValidationException("userId cannot be minus.");
 		UserEntity userEntity = userRepository.findByuserId(userId);
-		if(userEntity == null)
-			throw new ClientDataValidationException("There is no corresponding information for userId.");
+		if(userEntity == null){
+			log.error("There is no corresponding information for userId. userId: {}", userId);
+			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
+		}
 		return convertEntityToDto(userEntity);
 	}
 
@@ -63,25 +61,12 @@ public class CustomUserDetailService implements UserDetailsService {
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if(userEntity == null){
 			log.error("There is no corresponding information for email. email: {}", email);
-			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
 		}
 		return convertEntityToDto(userEntity);
 	}
 
-//	/**
-//	 * 하나의 사용자 등록
-//	 * @param userDto
-//	 * @return
-//	 * **/
-//	public Long save(BasicUserDto userDto) {
-//		if(userDto.getEmail() == null || userDto.getPassword() == null || userDto.getRoles() == null)
-//			throw new ClientDataValidationException("Not enough user data.");
-//
-//		UserEntity userEntity = userDto.toEntity();
-//		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-//		userRepository.save(userEntity);
-//		return userEntity.getUserId();
-//	}
+
 	
 	/**
 	 * {userId}에 해당하는 사용자 수정
@@ -91,7 +76,7 @@ public class CustomUserDetailService implements UserDetailsService {
 	public UserDto update(Long userId, BasicUserDto userDto) {
 		if(userRepository.findByuserId(userId) ==null){
 			log.error("There is no corresponding information for userId. userId: {}", userId);
-			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
 		}
 
 		UserEntity userEntity = userDto.toEntity();
@@ -112,7 +97,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		UserEntity userEntity = userRepository.findByuserId(userId);
 		if(userEntity ==null){
 			log.error("There is no corresponding information for userId. userId: {}", userId);
-			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
 		}
 		userRepository.deleteByUserId(userId);
 		UserDto userDto = userEntity.toDTO();

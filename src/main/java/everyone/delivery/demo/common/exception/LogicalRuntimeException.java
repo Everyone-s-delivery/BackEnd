@@ -1,17 +1,17 @@
 package everyone.delivery.demo.common.exception;
 
-import everyone.delivery.demo.common.response.CommonRestError;
+import everyone.delivery.demo.common.exception.error.RestError;
 import lombok.Data;
 
 @Data
 public class LogicalRuntimeException extends RuntimeException{
-    private CommonRestError restError;
+    private RestError restError;
 
     public LogicalRuntimeException(){
         super();
     }
 
-    public LogicalRuntimeException(CommonRestError restError){
+    public LogicalRuntimeException(RestError restError){
         this.restError = restError;
     }
 
