@@ -1,8 +1,6 @@
 package everyone.delivery.demo.security.user.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import everyone.delivery.demo.domain.address.Address;
-import everyone.delivery.demo.domain.address.InterestedAddress;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRole;
 import lombok.AllArgsConstructor;
@@ -38,10 +36,7 @@ public class UserDto implements UserDetails {
     private String password;
 
     @NotNull(message = "Not enough user data.")
-    private Address address;
-
-    @NotNull(message = "Not enough user data.")
-    private List<InterestedAddress> interestedAddress;
+    private String address;
 
     private List<UserRole> roles;
 
@@ -56,7 +51,6 @@ public class UserDto implements UserDetails {
                             .password(password)
                             .roles(roles)
                             .address(address)
-                            .interestedAddress(interestedAddress)
                             .regDate(regDate)
                             .updateDate(updateDate)
                             .build();

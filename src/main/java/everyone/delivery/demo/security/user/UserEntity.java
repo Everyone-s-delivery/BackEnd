@@ -1,8 +1,6 @@
 package everyone.delivery.demo.security.user;
 
 
-import everyone.delivery.demo.domain.address.Address;
-import everyone.delivery.demo.domain.address.InterestedAddress;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,11 +37,8 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)    //이넘 값을 그대로 디비에 저장
     private List<UserRole> roles;
 
-    @Embedded
-    private Address address;
-
-    @ElementCollection
-    private List<InterestedAddress> interestedAddress;
+    @Column(length = 300, nullable = false)
+    private String address;
 
     @CreatedDate
     @Column(updatable = false)
@@ -59,7 +54,6 @@ public class UserEntity {
                 .password(password)
                 .roles(roles)
                 .address(address)
-                .interestedAddress(interestedAddress)
                 .regDate(regDate)
                 .updateDate(updateDate)
                 .build();

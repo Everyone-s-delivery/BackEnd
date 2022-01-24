@@ -118,7 +118,6 @@ public class CustomUserDetailService implements UserDetailsService {
         				.password(userEntity.getPassword())
         				.roles(userEntity.getRoles())
 						.address(userEntity.getAddress())
-						.interestedAddress(userEntity.getInterestedAddress())
         				.regDate(userEntity.getRegDate())
 						.updateDate(userEntity.getUpdateDate())
         				.build();

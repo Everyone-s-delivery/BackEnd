@@ -71,7 +71,6 @@ public class SignService {
                 .email(basicUserDto.getEmail())
                 .password(passwordEncoder.encode(basicUserDto.getPassword()))
                 .address(basicUserDto.getAddress())
-                .interestedAddress(basicUserDto.getInterestedAddress())
                 .roles(roles).build();
 
         userEntity = userRepository.save(userEntity);
