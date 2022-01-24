@@ -1,18 +1,22 @@
 package everyone.delivery.demo.security.user;
 import everyone.delivery.demo.common.exception.ClientDataValidationException;
+import everyone.delivery.demo.common.exception.LogicalRuntimeException;
+import everyone.delivery.demo.common.response.CommonRestError;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.LoginException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
@@ -56,11 +60,11 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto getByEmail(String email) {
-		if(email == null)
-			throw new ClientDataValidationException("email cannot be null.");
 		UserEntity userEntity = userRepository.findByEmail(email);
-		if(userEntity == null)
-			throw new ClientDataValidationException("There is no corresponding information for email.");
+		if(userEntity == null){
+			log.error("There is no corresponding information for email. email: {}", email);
+			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+		}
 		return convertEntityToDto(userEntity);
 	}
 
@@ -85,11 +89,10 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto update(Long userId, BasicUserDto userDto) {
-		if(userId <= 0)
-			throw new ClientDataValidationException("userId cannot be minus.");
-
-		if(userRepository.findByuserId(userId) ==null)
-			throw new ClientDataValidationException("There is no corresponding information for userId.");
+		if(userRepository.findByuserId(userId) ==null){
+			log.error("There is no corresponding information for userId. userId: {}", userId);
+			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+		}
 
 		UserEntity userEntity = userDto.toEntity();
 		userEntity.setUserId(userId);
@@ -106,11 +109,11 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * **/
 	@Transactional
 	public UserDto delete(Long userId) {
-		if(userId <= 0) 
-			throw new ClientDataValidationException("userId cannot be minus.");
 		UserEntity userEntity = userRepository.findByuserId(userId);
-		if(userEntity ==null)
-			throw new ClientDataValidationException("There is no corresponding information for userId.");
+		if(userEntity ==null){
+			log.error("There is no corresponding information for userId. userId: {}", userId);
+			throw new LogicalRuntimeException(CommonRestError.INVALID_DATA);
+		}
 		userRepository.deleteByUserId(userId);
 		UserDto userDto = userEntity.toDTO();
 		return userDto;

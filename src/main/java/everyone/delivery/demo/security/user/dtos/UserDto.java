@@ -29,7 +29,7 @@ public class UserDto implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long userId;
 
-    @NotNull(message = "Not enough user data.")
+    @NotNull(message = "Not enough user data. email cannot be null.")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

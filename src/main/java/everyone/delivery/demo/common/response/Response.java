@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Response<T> {
     private T data;
-    private RestError error;
+    private CommonRestError error;
 
     public boolean hasError(){
         return (error != null);

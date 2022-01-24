@@ -19,7 +19,7 @@ public class ResponseUtils {
      * @param restError
      * @return
      */
-    public static ResponseEntity out(RestError restError){
+    public static ResponseEntity out(CommonRestError restError){
         return ResponseEntity.status(restError.getHttpStatus()).body(restError.toResponseError());
     }
 
@@ -30,7 +30,7 @@ public class ResponseUtils {
      */
     public static ResponseEntity out(Response response){
         if(response.hasError()){
-            RestError restError = response.getError();
+            CommonRestError restError = response.getError();
             return ResponseEntity.status(restError.getHttpStatus()).body(restError.toResponseError());
         }
         else{

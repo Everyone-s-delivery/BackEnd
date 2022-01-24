@@ -28,7 +28,7 @@ import java.util.List;
 @Builder
 public class BasicUserDto {
 
-    @NotNull(message = "Not enough user data.")
+    @NotNull(message = "Not enough user data. email cannot be null.")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

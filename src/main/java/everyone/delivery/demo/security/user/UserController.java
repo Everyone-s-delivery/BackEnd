@@ -1,11 +1,8 @@
 package everyone.delivery.demo.security.user;
 
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.common.response_old.ListResult;
 import everyone.delivery.demo.common.response_old.ResponseService;
-import everyone.delivery.demo.common.response_old.SingleResult;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
-import everyone.delivery.demo.security.user.dtos.UserDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 
 @Validated
 @Api(tags = {"* 사용자 API(어드민 권한)"})
@@ -56,7 +51,7 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header"),
 		@ApiImplicitParam(name = "userId",value = "사용자 번호(1 이상의 값)", example = "1" )
 	})
-	public ResponseEntity get(@PathVariable @Min(value = 1) Long userId) {
+	public ResponseEntity get(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId) {
 		return ResponseUtils.out(customUserDetailService.getById(userId));
 	}
 	
@@ -86,7 +81,8 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public ResponseEntity update(@PathVariable Long userId, @RequestBody BasicUserDto userDto) {
+	public ResponseEntity update(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId,
+								 @RequestBody BasicUserDto userDto) {
 		return ResponseUtils.out(customUserDetailService.update(userId ,userDto));
 	}
 	
@@ -101,7 +97,7 @@ public class UserController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
 	})
-	public ResponseEntity delete(@PathVariable Long userId) {
+	public ResponseEntity delete(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId) {
 		return ResponseUtils.out(customUserDetailService.delete(userId));
 	}
 }

@@ -2,7 +2,7 @@ package everyone.delivery.demo.common.exception.advice;
 
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.common.response.RestError;
+import everyone.delivery.demo.common.response.CommonRestError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,8 +28,7 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex) {
-        return ResponseUtils.out(RestError.BAD_REQUEST);
-//        return output(EntityResult.error(FXMCommonServiceError.INVALID_DATA),locale);
+        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
     }
 
     /***
@@ -39,7 +38,7 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
-        return ResponseUtils.out(RestError.BAD_REQUEST);
+        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
     }
 
     /***
@@ -49,7 +48,7 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
-        return ResponseUtils.out(RestError.BAD_REQUEST);
+        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
     }
 
     /***
@@ -61,6 +60,6 @@ public class CommonControllerAdvice {
      */
     @ExceptionHandler(MissingServletRequestPartException.class)
     protected ResponseEntity<?> missingServletRequestPartExceptionHandler(MissingServletRequestPartException ex) {
-        return ResponseUtils.out(RestError.BAD_REQUEST);
+        return ResponseUtils.out(CommonRestError.BAD_REQUEST);
     }
 }
