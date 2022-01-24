@@ -1,6 +1,6 @@
 package everyone.delivery.demo.common.response;
 
-import everyone.delivery.demo.common.exception.error.CommonError;
+import everyone.delivery.demo.common.exception.error.RestError;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseUtils {
@@ -20,7 +20,7 @@ public class ResponseUtils {
      * @param restError
      * @return
      */
-    public static ResponseEntity out(CommonError restError){
+    public static ResponseEntity out(RestError restError){
         return ResponseEntity.status(restError.getHttpStatus()).body(restError.toResponseError());
     }
 
@@ -31,7 +31,7 @@ public class ResponseUtils {
      */
     public static ResponseEntity out(Response response){
         if(response.hasError()){
-            CommonError restError = response.getError();
+            RestError restError = response.getError();
             return ResponseEntity.status(restError.getHttpStatus()).body(restError.toResponseError());
         }
         else{
