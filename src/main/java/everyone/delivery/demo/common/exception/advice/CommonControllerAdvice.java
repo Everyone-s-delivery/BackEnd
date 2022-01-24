@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import javax.validation.ConstraintViolationException;
 
 
 @RestControllerAdvice(basePackages="everyone.delivery.demo")
@@ -29,6 +30,16 @@ public class CommonControllerAdvice {
     protected ResponseEntity<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex) {
         return ResponseUtils.out(RestError.BAD_REQUEST);
 //        return output(EntityResult.error(FXMCommonServiceError.INVALID_DATA),locale);
+    }
+
+    /***
+     * 요청 데이터를 객채가 아니라 바로 파라미터로 받을 경우, 검증 과정에서 오류가 발생한 경우
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        return ResponseUtils.out(RestError.BAD_REQUEST);
     }
 
     /***

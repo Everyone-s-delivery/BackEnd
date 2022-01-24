@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 
+@Validated
 @Api(tags = {"* 사용자 API(어드민 권한)"})
 @RequiredArgsConstructor
 @RestController
@@ -55,7 +56,7 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header"),
 		@ApiImplicitParam(name = "userId",value = "사용자 번호(1 이상의 값)", example = "1" )
 	})
-	public ResponseEntity get(@PathVariable Long userId) {
+	public ResponseEntity get(@PathVariable @Min(value = 1) Long userId) {
 		return ResponseUtils.out(customUserDetailService.getById(userId));
 	}
 	
