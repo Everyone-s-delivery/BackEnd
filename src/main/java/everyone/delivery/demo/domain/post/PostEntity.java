@@ -53,7 +53,7 @@ public class PostEntity {
     @LastModifiedDate
     private LocalDateTime updateDate;	//수정일자
 
-    public PostDto toDTO(){
+    public PostDto toDto(){
         List<PostCommentDto> postCommentDtos = new ArrayList<>();
         for(PostCommentEntity postCommentEntity: this.comments){
             postCommentDtos.add(postCommentEntity.toDto());
