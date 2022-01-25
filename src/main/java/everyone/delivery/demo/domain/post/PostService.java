@@ -130,20 +130,14 @@ public class PostService {
                 .build();
     }
 
-    public PostEntity convertDTOToEntity(CreatePostDto basicPostDto){
-        UserEntity userEntity = userRepository.findByuserId(basicPostDto.getPosterId());
-        List<PostCommentDto> commentDtos = basicPostDto.getComments();
-        List<PostCommentEntity> commentEntities = new ArrayList<>();
-        for (PostCommentDto commentDto: commentDtos){
-            commentEntities.add(postCommentService.convertDTOToEntity(commentDto));
-        }
+    public PostEntity convertDTOToEntity(CreatePostDto createPostDto){
+        UserEntity userEntity = userRepository.findByuserId(createPostDto.getPosterId());
 
         return PostEntity.builder()
                 .poster(userEntity)
-                .title(basicPostDto.getTitle())
-                .description(basicPostDto.getDescription())
-                .addresses(basicPostDto.getAddresses())
-                .comments(commentEntities)
+                .title(createPostDto.getTitle())
+                .description(createPostDto.getDescription())
+                .addresses(createPostDto.getAddresses())
                 .build();
     }
 }
