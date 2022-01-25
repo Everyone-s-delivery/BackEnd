@@ -47,7 +47,7 @@ public class UserController {
 	@ApiOperation(value = "사용자 상세 조회",
 	notes = "사용자 번호에 해당하는 상세 정보를 조회할 수 있습니다.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header"),
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = true, dataType = "String", paramType = "header"),
 		@ApiImplicitParam(name = "userId",value = "사용자 번호(1 이상의 값)", example = "1" )
 	})
 	public ResponseEntity get(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId) {
@@ -78,7 +78,7 @@ public class UserController {
 	@ApiOperation(value = "기존 사용자 수정", 
 	notes = "기존 사용자를 수정합니다. 사용자 아이디는 path로 넘기고 나머지 정보를 json body로 넘겨야 합니다.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = true, dataType = "String", paramType = "header")
 	})
 	public ResponseEntity update(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId,
 								 @Valid @RequestBody BasicUserDto userDto) {
@@ -94,7 +94,7 @@ public class UserController {
 	@ApiOperation(value = "기존 사용자 삭제", 
 	notes = "기존 사용자를 삭제합니다. path로 삭제하고자 하는 사용자의 번호를 넘겨야 합니다.")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = false, dataType = "String", paramType = "header")
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = true, dataType = "String", paramType = "header")
 	})
 	public ResponseEntity delete(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId) {
 		return ResponseUtils.out(customUserDetailService.delete(userId));

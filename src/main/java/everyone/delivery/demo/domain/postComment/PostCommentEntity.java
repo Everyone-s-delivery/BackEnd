@@ -1,6 +1,7 @@
 package everyone.delivery.demo.domain.postComment;
 
 
+import everyone.delivery.demo.domain.post.PostEntity;
 import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import lombok.*;
@@ -29,6 +30,10 @@ public class PostCommentEntity {
     @JoinColumn(name="user_id")
     private UserEntity commenter;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity post;
+
     @Column(length = 3000, nullable = false)
     private String comment;
 
@@ -44,6 +49,7 @@ public class PostCommentEntity {
                 .postCommentId(this.postCommentId)
                 .commenterId(this.commenter.getUserId())
                 .commenterEmail(this.commenter.getEmail())
+                .postId(this.post.getPostId())
                 .comment(this.comment)
                 .regDate(this.regDate)
                 .updateDate(this.updateDate)
