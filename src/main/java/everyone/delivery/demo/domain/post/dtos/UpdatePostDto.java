@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
+/***
+ * 모집 글 수정 api에서 데이터 받기 위한 DTO
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -1,9 +1,8 @@
 package everyone.delivery.demo.domain.post;
 
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.domain.post.dtos.BasicPostDto;
+import everyone.delivery.demo.domain.post.dtos.CreatePostDto;
 import everyone.delivery.demo.domain.post.dtos.UpdatePostDto;
-import everyone.delivery.demo.domain.postComment.dtos.BasicPostCommentDto;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Validated
 @Api(tags = {"* 모집 글 API(사용자[모집자 또는 참여자] 권한)"})
@@ -48,8 +46,8 @@ public class PostController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
     })
-    public ResponseEntity create(@Valid @RequestBody @ApiParam(value = "모집 글 정보를 갖는 객체", required = true) BasicPostDto basicPostDto){
-        return ResponseUtils.out(postService.create(basicPostDto));
+    public ResponseEntity create(@Valid @RequestBody @ApiParam(value = "모집 글 정보를 갖는 객체", required = true) CreatePostDto createPostDto){
+        return ResponseUtils.out(postService.create(createPostDto));
     }
 
     @PutMapping("{postId}")

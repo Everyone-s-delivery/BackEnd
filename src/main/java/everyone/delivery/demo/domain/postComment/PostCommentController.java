@@ -1,8 +1,7 @@
 package everyone.delivery.demo.domain.postComment;
 
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.domain.postComment.dtos.BasicPostCommentDto;
-import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
+import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +38,8 @@ public class PostCommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
     })
-    public ResponseEntity create(@Valid @RequestBody @ApiParam(value = "덧글 정보를 갖는 객체", required = true) BasicPostCommentDto postCommentDto){
-        return ResponseUtils.out(postCommentService.create(postCommentDto));
+    public ResponseEntity create(@Valid @RequestBody @ApiParam(value = "덧글 정보를 갖는 객체", required = true) CreatePostCommentDto createPostCommentDto){
+        return ResponseUtils.out(postCommentService.create(createPostCommentDto));
     }
 
     @PutMapping("{postCommentId}")

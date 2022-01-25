@@ -2,7 +2,7 @@ package everyone.delivery.demo.domain.post;
 
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
-import everyone.delivery.demo.domain.post.dtos.BasicPostDto;
+import everyone.delivery.demo.domain.post.dtos.CreatePostDto;
 import everyone.delivery.demo.domain.post.dtos.PostDto;
 import everyone.delivery.demo.domain.post.dtos.UpdatePostDto;
 import everyone.delivery.demo.domain.postComment.PostCommentEntity;
@@ -64,7 +64,7 @@ public class PostService {
      * @return
      */
     @Transactional
-    public PostDto create(BasicPostDto basicPostDto){
+    public PostDto create(CreatePostDto basicPostDto){
         PostEntity postEntity = convertDTOToEntity(basicPostDto);
         postEntity = postRepository.save(postEntity);
         return postEntity.toDto();
@@ -130,7 +130,7 @@ public class PostService {
                 .build();
     }
 
-    public PostEntity convertDTOToEntity(BasicPostDto basicPostDto){
+    public PostEntity convertDTOToEntity(CreatePostDto basicPostDto){
         UserEntity userEntity = userRepository.findByuserId(basicPostDto.getPosterId());
         List<PostCommentDto> commentDtos = basicPostDto.getComments();
         List<PostCommentEntity> commentEntities = new ArrayList<>();

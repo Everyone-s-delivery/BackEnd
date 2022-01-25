@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-
+/***
+ * 모집 글 생성 api에서 데이터 받기 위한 DTO
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BasicPostDto {
+public class CreatePostDto {
 
     @NotNull(message = "Not enough post data. posterId cannot be null.")
     private Long posterId;          // 모집글에 대한 작성자 아이디
@@ -30,6 +32,4 @@ public class BasicPostDto {
     private String description;
 
     private List<String> addresses;
-
-    private List<PostCommentDto> comments;
 }

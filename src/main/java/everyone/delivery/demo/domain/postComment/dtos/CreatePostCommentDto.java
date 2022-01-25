@@ -10,11 +10,14 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+/***
+ * 덧글 생성 api에서 데이터 받기 위한 DTO
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BasicPostCommentDto {
+public class CreatePostCommentDto {
 
     @NotNull(message = "Not enough comment data. commenterId cannot be null.")
     private Long commenterId;

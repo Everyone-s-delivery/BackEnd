@@ -4,21 +4,14 @@ import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
 import everyone.delivery.demo.domain.post.PostEntity;
 import everyone.delivery.demo.domain.post.PostRepository;
-import everyone.delivery.demo.domain.post.PostService;
-import everyone.delivery.demo.domain.post.dtos.PostDto;
-import everyone.delivery.demo.domain.postComment.dtos.BasicPostCommentDto;
+import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -48,12 +41,12 @@ public class PostCommentService {
     /***
      * 등록
      * postCommentDto로 받은 덧글 정보를 디비에 등록
-     * @param postCommentDto
+     * @param createPostCommentDto
      * @return
      */
     @Transactional
-    public PostCommentDto create(BasicPostCommentDto postCommentDto){
-        PostCommentEntity postCommentEntity = convertDTOToEntity(postCommentDto);
+    public PostCommentDto create(CreatePostCommentDto createPostCommentDto){
+        PostCommentEntity postCommentEntity = convertDTOToEntity(createPostCommentDto);
         postCommentEntity = postCommentRepository.save(postCommentEntity);
         return postCommentEntity.toDto();
     }
@@ -111,7 +104,7 @@ public class PostCommentService {
                 .build();
     }
 
-    public PostCommentEntity convertDTOToEntity(BasicPostCommentDto basicPostCommentDto){
+    public PostCommentEntity convertDTOToEntity(CreatePostCommentDto basicPostCommentDto){
         UserEntity userEntity = userRepository.findByuserId(basicPostCommentDto.getCommenterId());
         PostEntity postEntity = postRepository.getById(basicPostCommentDto.getPostId());
 
