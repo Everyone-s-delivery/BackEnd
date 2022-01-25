@@ -79,7 +79,7 @@ public class PostCommentService {
      * @return
      */
     @Transactional
-    public PostCommentDto delete(Long postCommentId){
+    public Long delete(Long postCommentId){
         PostCommentEntity postCommentEntity
                 = postCommentRepository.getById(postCommentId);
         if(postCommentEntity == null){
@@ -87,7 +87,7 @@ public class PostCommentService {
             throw new LogicalRuntimeException(CommonError.INVALID_DATA);
         }
         postCommentRepository.deleteById(postCommentId);
-        return postCommentEntity.toDto();
+        return postCommentId;
     }
 
 

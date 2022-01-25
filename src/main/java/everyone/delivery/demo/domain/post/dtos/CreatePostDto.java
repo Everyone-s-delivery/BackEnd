@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @Builder
 public class CreatePostDto {
 
+    @Min(value = 1, message = "posterId cannot be minus.")
     @NotNull(message = "Not enough post data. posterId cannot be null.")
     private Long posterId;          // 모집글에 대한 작성자 아이디
 

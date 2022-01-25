@@ -60,12 +60,18 @@ public class PostService {
     /***
      * 등록
      * basicPostDto 로 받은 덧글 정보를 디비에 등록
-     * @param basicPostDto
+     * @param createPostDto
      * @return
      */
     @Transactional
-    public PostDto create(CreatePostDto basicPostDto){
-        PostEntity postEntity = convertDTOToEntity(basicPostDto);
+    public PostDto create(CreatePostDto createPostDto){
+        PostEntity postEntity = convertDTOToEntity(createPostDto);
+        //유효한 작성자 아이디인지 검증
+        if(userRepository.getById(createPostDto.getPosterId()) == null){
+            log.error("poster is null. posterId: {}", createPostDto.getPosterId());
+            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
+        }
+
         postEntity = postRepository.save(postEntity);
         return postEntity.toDto();
     }
@@ -99,14 +105,14 @@ public class PostService {
      * @return
      */
     @Transactional
-    public PostDto delete(Long postId){
+    public Long delete(Long postId){
         PostEntity postEntity = postRepository.getById(postId);
-        if(postEntity == null){
+        if(postEntity == null){ //TODO: Transactional 내부에 있는 postEntity는 값이 없어도 null로 안찍힘(이거 해결해야 한다)
             log.error("postEntity is null. postId: {}", postId);
             throw new LogicalRuntimeException(CommonError.INVALID_DATA);
         }
         postRepository.deleteById(postId);
-        return postEntity.toDto();
+        return postId;
     }
 
 

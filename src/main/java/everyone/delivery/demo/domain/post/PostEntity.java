@@ -6,6 +6,7 @@ import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
+import org.apache.commons.collections4.ListUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -55,12 +56,12 @@ public class PostEntity {
 
     public PostDto toDto(){
         List<PostCommentDto> postCommentDtos = new ArrayList<>();
-        for(PostCommentEntity postCommentEntity: this.comments){
+        for(PostCommentEntity postCommentEntity: ListUtils.emptyIfNull(this.comments)){
             postCommentDtos.add(postCommentEntity.toDto());
         }
 
         return PostDto.builder()
-                .posterId(this.postId)
+                .postId(this.postId)
                 .posterId(this.poster.getUserId())
                 .posterEmail(this.poster.getEmail())
                 .title(this.title)

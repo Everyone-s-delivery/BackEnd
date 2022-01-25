@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,7 @@ public class PostDto {
 
     private Long postId;
 
+    @Min(value = 1, message = "posterId cannot be minus.")
     @NotNull(message = "Not enough post data. posterId cannot be null.")
     private Long posterId;          // 모집글에 대한 작성자 아이디
 
