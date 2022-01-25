@@ -1,6 +1,10 @@
 package everyone.delivery.demo.domain.post;
 
+import everyone.delivery.demo.domain.post.dtos.PostDto;
+import everyone.delivery.demo.domain.postComment.PostCommentEntity;
+import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
+import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @SequenceGenerator(name = "postTable_SEQ_GENERATOR", sequenceName = "postTable_SEQ", initialValue = 1, allocationSize = 1)
@@ -26,7 +31,7 @@ public class PostEntity {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private UserEntity postUser;
+    private UserEntity poster;
 
     @Column(length = 300, nullable = false)
     private String title;
@@ -47,4 +52,23 @@ public class PostEntity {
 
     @LastModifiedDate
     private LocalDateTime updateDate;	//수정일자
+
+    public PostDto toDTO(){
+        List<PostCommentDto> postCommentDtos = new ArrayList<>();
+        for(PostCommentEntity postCommentEntity: this.comments){
+            postCommentDtos.add(postCommentEntity.toDto());
+        }
+
+        return PostDto.builder()
+                .posterId(this.postId)
+                .posterId(this.poster.getUserId())
+                .posterEmail(this.poster.getEmail())
+                .title(this.title)
+                .description(this.description)
+                .addresses(this.addresses)
+                .comments(postCommentDtos)
+                .regDate(this.regDate)
+                .updateDate(this.updateDate)
+                .build();
+    }
 }

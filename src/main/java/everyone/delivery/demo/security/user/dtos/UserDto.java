@@ -24,7 +24,7 @@ import java.util.List;
 @Builder
 public class UserDto implements UserDetails {
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //직렬화 과정에서 제외시킨다는 의미
     private Long userId;
 
     @NotNull(message = "Not enough user data. email cannot be null.")

@@ -1,6 +1,7 @@
-package everyone.delivery.demo.domain.post;
+package everyone.delivery.demo.domain.postComment;
 
 
+import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,4 +38,15 @@ public class PostCommentEntity {
 
     @LastModifiedDate
     private LocalDateTime updateDate;	//수정일자
+
+    public PostCommentDto toDto(){
+        return PostCommentDto.builder()
+                .postCommentId(this.postCommentId)
+                .commenterId(this.commenter.getUserId())
+                .commenterEmail(this.commenter.getEmail())
+                .comment(this.comment)
+                .regDate(this.regDate)
+                .updateDate(this.updateDate)
+                .build();
+    }
 }
