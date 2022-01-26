@@ -50,7 +50,7 @@ public class PostService {
      */
     public PostDto getById(Long postId){
         PostEntity postEntity = postRepository.getById(postId);
-        if(postEntity == null){ //TODO: jpa 특성 상 바로 null이 안나오는 듯!
+        if(postEntity == null){ //TODO: jpa 특성 상 바로 null이 안나오는 듯!(해결 필요)
             log.error("postEntity is null. postId: {}", postId);
             throw new LogicalRuntimeException(CommonError.INVALID_DATA);
         }
