@@ -27,12 +27,16 @@ public class BasicUserDto {
     @NotNull(message = "Not enough user data.")
     private String password;
 
+    @NotNull(message = "Not enough user data. nickName cannot be null.")
+    private String nickName;
+
     @NotNull(message = "Not enough user data.")
     private String address;
 
     public UserEntity toEntity(){
         return UserEntity.builder()
                             .email(email)
+                            .nickName(nickName)
                             .password(password)
                             .address(address)
                             .build();

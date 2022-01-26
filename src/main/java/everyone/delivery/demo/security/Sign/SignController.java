@@ -1,6 +1,8 @@
 package everyone.delivery.demo.security.Sign;
 
 import everyone.delivery.demo.common.response.ResponseUtils;
+import everyone.delivery.demo.domain.postComment.PostCommentEntity;
+import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,5 +38,7 @@ public class SignController {
 	public ResponseEntity  signup(@Valid @RequestBody @ApiParam(value = "회원 한 명의 정보를 갖는 객체", required = true) BasicUserDto basicUserDto) {
 		return ResponseUtils.out(signService.signup(basicUserDto));
 	}
+
+
 
 }

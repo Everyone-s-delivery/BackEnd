@@ -32,6 +32,9 @@ public class PostDto {
     @NotNull(message = "Not enough post data. posterEmail cannot be null.")
     private String posterEmail;       // 모집글에 대한 작성자 이메일
 
+    @NotNull(message = "Not enough post data. posterNickName cannot be null.")
+    private String posterNickName;
+
     @NotNull(message = "Not enough post data. title cannot be null.")
     private String title;
 

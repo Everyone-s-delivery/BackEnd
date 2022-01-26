@@ -4,7 +4,6 @@ import everyone.delivery.demo.domain.post.dtos.PostDto;
 import everyone.delivery.demo.domain.postComment.PostCommentEntity;
 import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
-import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.*;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,7 +36,8 @@ public class PostEntity {
     @Column(length = 300, nullable = false)
     private String title;
 
-    @Column(length = 3000, nullable = false)
+    @Lob
+    @Column(nullable = false)
     private String description;
 
     @ElementCollection
@@ -64,6 +64,7 @@ public class PostEntity {
                 .postId(this.postId)
                 .posterId(this.poster.getUserId())
                 .posterEmail(this.poster.getEmail())
+                .posterNickName(this.poster.getNickName())
                 .title(this.title)
                 .description(this.description)
                 .addresses(this.addresses)

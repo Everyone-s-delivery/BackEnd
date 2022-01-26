@@ -26,8 +26,11 @@ public class UserEntity {
     @GeneratedValue(strategy= GenerationType.SEQUENCE , generator="userTable_SEQ_GENERATOR")
     private Long userId;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 50, nullable = false)
     private String email;
+
+    @Column(length = 50, nullable = false, unique=true)
+    private String nickName;
 
     @Column(length = 300, nullable = false)
     private String password;
@@ -51,6 +54,7 @@ public class UserEntity {
         return UserDto.builder()
                 .userId(userId)
                 .email(email)
+                .nickName(nickName)
                 .password(password)
                 .roles(roles)
                 .address(address)

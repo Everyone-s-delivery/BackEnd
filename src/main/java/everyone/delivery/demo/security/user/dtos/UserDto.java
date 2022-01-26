@@ -30,6 +30,9 @@ public class UserDto implements UserDetails {
     @Email(message = "invalid email form.")
     private String email;
 
+    @NotNull(message = "Not enough user data. nickName cannot be null.")
+    private String nickName;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  //직렬화 과정에서 제외
     @NotNull(message = "Not enough user data.")
     private String password;
@@ -47,6 +50,7 @@ public class UserDto implements UserDetails {
         return UserEntity.builder()
                             .userId(userId)
                             .email(email)
+                            .nickName(nickName)
                             .password(password)
                             .roles(roles)
                             .address(address)

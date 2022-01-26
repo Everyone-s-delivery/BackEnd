@@ -49,6 +49,7 @@ public class PostCommentEntity {
                 .postCommentId(this.postCommentId)
                 .commenterId(this.commenter.getUserId())
                 .commenterEmail(this.commenter.getEmail())
+                .commenterNickName(this.commenter.getNickName())
                 .postId(this.post.getPostId())
                 .comment(this.comment)
                 .regDate(this.regDate)

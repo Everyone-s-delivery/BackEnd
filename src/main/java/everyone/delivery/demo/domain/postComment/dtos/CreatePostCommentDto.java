@@ -25,6 +25,9 @@ public class CreatePostCommentDto {
     @NotNull(message = "Not enough comment data. commenterEmail cannot be null.")
     private String commenterEmail;
 
+    @NotNull(message = "Not enough comment data. commenterNickName cannot be null.")
+    private String commenterNickName;
+
     @NotNull(message = "Not enough comment data. postId cannot be null.")
     private Long postId;
 

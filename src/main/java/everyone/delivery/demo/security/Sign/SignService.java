@@ -2,6 +2,8 @@ package everyone.delivery.demo.security.Sign;
 
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.UserError;
+import everyone.delivery.demo.domain.postComment.PostCommentEntity;
+import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import everyone.delivery.demo.security.JWT.JwtTokenProvider;
 import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.UserEntity;
@@ -67,13 +69,19 @@ public class SignService {
         if(basicUserDto.getEmail().equals("admin@admin.com"))
             roles.add(UserRole.ROLE_ADMIN);
 
-        UserEntity userEntity = UserEntity.builder()
-                .email(basicUserDto.getEmail())
-                .password(passwordEncoder.encode(basicUserDto.getPassword()))
-                .address(basicUserDto.getAddress())
-                .roles(roles).build();
+        UserEntity userEntity = convertDTOToEntity(basicUserDto,roles);
 
         userEntity = userRepository.save(userEntity);
         return userEntity.toDTO();
     }
+
+    public UserEntity convertDTOToEntity(BasicUserDto basicUserDto, List<UserRole> roles){
+        return UserEntity.builder()
+                .email(basicUserDto.getEmail())
+                .nickName(basicUserDto.getNickName())
+                .password(passwordEncoder.encode(basicUserDto.getPassword()))
+                .address(basicUserDto.getAddress())
+                .roles(roles).build();
+    }
+
 }
