@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)          //파라미터에 붙을 수 있다는 의미
+@Target(value = {ElementType.FIELD, ElementType.PARAMETER})          //파라미터, 필드에 붙을 수 있다는 의미
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NotDuplicatedValidator.class)
 public @interface NotDuplicated {
