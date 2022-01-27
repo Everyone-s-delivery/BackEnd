@@ -18,7 +18,7 @@ import javax.validation.constraints.Min;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
 
     private PostService postService;
