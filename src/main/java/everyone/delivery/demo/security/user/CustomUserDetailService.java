@@ -1,4 +1,5 @@
 package everyone.delivery.demo.security.user;
+import everyone.delivery.demo.common.exception.ExceptionUtils;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
 import everyone.delivery.demo.security.user.dtos.BasicUserDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -44,11 +46,10 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto getById(Long userId) {
-		UserEntity userEntity = userRepository.findByuserId(userId);
-		if(userEntity == null){
-			log.error("There is no corresponding information for userId. userId: {}", userId);
-			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-		}
+		Optional<UserEntity> userEntityOp = userRepository.findByUserId(userId);
+		UserEntity userEntity = ExceptionUtils
+				.ifNullThrowElseReturnVal(userEntityOp, "There is no corresponding information for userId. userId: {}",userId);
+
 		return convertEntityToDto(userEntity);
 	}
 
@@ -58,11 +59,9 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto getByEmail(String email) {
-		UserEntity userEntity = userRepository.findByEmail(email);
-		if(userEntity == null){
-			log.error("There is no corresponding information for email. email: {}", email);
-			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-		}
+		Optional<UserEntity> userEntityOp = userRepository.findByEmail(email);
+		UserEntity userEntity = ExceptionUtils
+				.ifNullThrowElseReturnVal(userEntityOp,"There is no corresponding information for email. email: {}", email);
 		return convertEntityToDto(userEntity);
 	}
 
@@ -74,7 +73,7 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * @return
 	 * **/
 	public UserDto update(Long userId, BasicUserDto userDto) {
-		if(userRepository.findByuserId(userId) ==null){
+		if(userRepository.findByUserId(userId) ==null){
 			log.error("There is no corresponding information for userId. userId: {}", userId);
 			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
 		}
@@ -94,18 +93,17 @@ public class CustomUserDetailService implements UserDetailsService {
 	 * **/
 	@Transactional
 	public Long delete(Long userId) {
-		UserEntity userEntity = userRepository.findByuserId(userId);
-		if(userEntity ==null){
-			log.error("There is no corresponding information for userId. userId: {}", userId);
-			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-		}
+		Optional<UserEntity> userEntityOp = userRepository.findByUserId(userId);
+		ExceptionUtils
+				.ifNullThrowElseReturnVal(userEntityOp,"There is no corresponding information for userId. userId: {}", userId);
 		userRepository.deleteByUserId(userId);
 		return userId;
 	}
 
 
     public UserDetails loadUserByUsername(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
+        Optional<UserEntity> userEntityOp = userRepository.findByEmail(email);
+		UserEntity userEntity = ExceptionUtils.ifNullThrowElseReturnVal(userEntityOp);
         return convertEntityToDto(userEntity);
     }
     

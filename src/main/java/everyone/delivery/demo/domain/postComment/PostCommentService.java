@@ -1,5 +1,6 @@
 package everyone.delivery.demo.domain.postComment;
 
+import everyone.delivery.demo.common.exception.ExceptionUtils;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
 import everyone.delivery.demo.domain.post.PostEntity;
@@ -10,8 +11,11 @@ import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,11 +34,9 @@ public class PostCommentService {
      * @return
      */
     public PostCommentDto getById(Long postCommentId){
-        PostCommentEntity postCommentEntity = postCommentRepository.getById(postCommentId);
-        if(postCommentEntity == null){
-            log.error("postCommentEntity is null. postCommentId: {}", postCommentId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostCommentEntity> postCommentEntityOp = postCommentRepository.findById(postCommentId);
+        PostCommentEntity postCommentEntity = ExceptionUtils
+                .ifNullThrowElseReturnVal(postCommentEntityOp,"postCommentEntity is null. postCommentId: {}", postCommentId);
         return postCommentEntity.toDto();
     }
 
@@ -60,17 +62,16 @@ public class PostCommentService {
      */
     @Transactional
     public PostCommentDto update(Long postCommentId, String comment){
-        PostCommentEntity postCommentEntity
-                = postCommentRepository.getById(postCommentId);
-        if(postCommentEntity == null){
-            log.error("postCommentEntity is null. postCommentId: {}", postCommentId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostCommentEntity> postCommentEntityOp = postCommentRepository.findById(postCommentId);
+        PostCommentEntity postCommentEntity = ExceptionUtils
+                .ifNullThrowElseReturnVal(postCommentEntityOp,"postCommentEntity is null. postCommentId: {}", postCommentId );
         postCommentEntity.setComment(comment);
         postCommentEntity = postCommentRepository.save(postCommentEntity);
 
         return postCommentEntity.toDto();
     }
+
+
 
     /***
      * 삭제
@@ -80,20 +81,20 @@ public class PostCommentService {
      */
     @Transactional
     public Long delete(Long postCommentId){
-        PostCommentEntity postCommentEntity
-                = postCommentRepository.getById(postCommentId);
-        if(postCommentEntity == null){
-            log.error("postCommentEntity is null. postCommentId: {}", postCommentId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostCommentEntity> postCommentEntity = postCommentRepository.findById(postCommentId);
+        ExceptionUtils.ifNullThrowElseReturnVal(postCommentEntity,"postCommentEntity is null. postCommentId: {}", postCommentId);
         postCommentRepository.deleteById(postCommentId);
         return postCommentId;
     }
 
 
     public PostCommentEntity convertDTOToEntity(PostCommentDto postCommentDto){
-        UserEntity userEntity = userRepository.findByuserId(postCommentDto.getCommenterId());
-        PostEntity postEntity = postRepository.getById(postCommentDto.getPostId());
+        Optional<UserEntity> userEntityOp = userRepository.findByUserId(postCommentDto.getCommenterId());
+        UserEntity userEntity = ExceptionUtils.ifNullThrowElseReturnVal(userEntityOp);
+
+        Optional<PostEntity> postEntityOp = postRepository.findById(postCommentDto.getPostId());
+        PostEntity postEntity = ExceptionUtils.ifNullThrowElseReturnVal(postEntityOp);
+
         return PostCommentEntity.builder()
                 .postCommentId(postCommentDto.getPostCommentId())
                 .commenter(userEntity)
@@ -105,8 +106,10 @@ public class PostCommentService {
     }
 
     public PostCommentEntity convertDTOToEntity(CreatePostCommentDto basicPostCommentDto){
-        UserEntity userEntity = userRepository.findByuserId(basicPostCommentDto.getCommenterId());
-        PostEntity postEntity = postRepository.getById(basicPostCommentDto.getPostId());
+        Optional<UserEntity> userEntityOp = userRepository.findByUserId(basicPostCommentDto.getCommenterId());
+        UserEntity userEntity = ExceptionUtils.ifNullThrowElseReturnVal(userEntityOp);
+        Optional<PostEntity> postEntityOp = postRepository.findById(basicPostCommentDto.getPostId());
+        PostEntity postEntity = ExceptionUtils.ifNullThrowElseReturnVal(postEntityOp);
 
         return PostCommentEntity.builder()
                 .commenter(userEntity)

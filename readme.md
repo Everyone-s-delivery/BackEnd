@@ -1,5 +1,5 @@
 # 0. notion 문서
-* 
+* https://www.notion.so/30c3b978485a47ed97b49939e8d044c4
 
 # 1. 목표
 

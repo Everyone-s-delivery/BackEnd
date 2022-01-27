@@ -1,5 +1,6 @@
 package everyone.delivery.demo.domain.post;
 
+import everyone.delivery.demo.common.exception.ExceptionUtils;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
 import everyone.delivery.demo.domain.post.dtos.CreatePostDto;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -49,11 +51,9 @@ public class PostService {
      * @return
      */
     public PostDto getById(Long postId){
-        PostEntity postEntity = postRepository.getById(postId);
-        if(postEntity == null){ //TODO: jpa 특성 상 바로 null이 안나오는 듯!(해결 필요)
-            log.error("postEntity is null. postId: {}", postId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostEntity> postEntityOp = postRepository.findById(postId);
+        PostEntity postEntity = ExceptionUtils
+                .ifNullThrowElseReturnVal(postEntityOp,"postEntity is null. postId: {}",postId);
         return postEntity.toDto();
     }
 
@@ -65,13 +65,12 @@ public class PostService {
      */
     @Transactional
     public PostDto create(CreatePostDto createPostDto){
-        PostEntity postEntity = convertDTOToEntity(createPostDto);
-        //유효한 작성자 아이디인지 검증
-        if(userRepository.getById(createPostDto.getPosterId()) == null){
-            log.error("poster is null. posterId: {}", createPostDto.getPosterId());
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        ExceptionUtils.ifNullThrowElseReturnVal(
+                        userRepository.findById(createPostDto.getPosterId()),
+                        "poster is null. posterId: {}",
+                        createPostDto.getPosterId());
 
+        PostEntity postEntity = convertDTOToEntity(createPostDto);
         postEntity = postRepository.save(postEntity);
         return postEntity.toDto();
     }
@@ -85,11 +84,9 @@ public class PostService {
      */
     @Transactional
     public PostDto update(Long postId, UpdatePostDto updatePostDto){
-        PostEntity postEntity = postRepository.getById(postId);
-        if(postEntity == null){
-            log.error("postEntity is null. postId: {}", postId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostEntity> postEntityOp = postRepository.findById(postId);
+        PostEntity postEntity = ExceptionUtils
+                .ifNullThrowElseReturnVal(postEntityOp, "postEntity is null. postId: {}", postId);
         postEntity.setTitle(updatePostDto.getTitle());
         postEntity.setDescription(updatePostDto.getDescription());
         postEntity.setAddresses(updatePostDto.getAddresses());
@@ -106,18 +103,16 @@ public class PostService {
      */
     @Transactional
     public Long delete(Long postId){
-        PostEntity postEntity = postRepository.getById(postId);
-        if(postEntity == null){ //TODO: Transactional 내부에 있는 postEntity는 값이 없어도 null로 안찍힘(이거 해결해야 한다)
-            log.error("postEntity is null. postId: {}", postId);
-            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-        }
+        Optional<PostEntity> postEntityOp = postRepository.findById(postId);
+        ExceptionUtils.ifNullThrowElseReturnVal(postEntityOp,"postEntity is null. postId: {}", postId);
         postRepository.deleteById(postId);
         return postId;
     }
 
 
     public PostEntity convertDTOToEntity(PostDto postDto){
-        UserEntity userEntity = userRepository.findByuserId(postDto.getPosterId());
+        Optional<UserEntity> userEntityOp = userRepository.findByUserId(postDto.getPosterId());
+        UserEntity userEntity = ExceptionUtils.ifNullThrowElseReturnVal(userEntityOp);
         List<PostCommentDto> commentDtos = postDto.getComments();
         List<PostCommentEntity> commentEntities = new ArrayList<>();
         for (PostCommentDto commentDto: commentDtos){
@@ -137,7 +132,8 @@ public class PostService {
     }
 
     public PostEntity convertDTOToEntity(CreatePostDto createPostDto){
-        UserEntity userEntity = userRepository.findByuserId(createPostDto.getPosterId());
+        Optional<UserEntity> userEntityOp = userRepository.findByUserId(createPostDto.getPosterId());
+        UserEntity userEntity = ExceptionUtils.ifNullThrowElseReturnVal(userEntityOp);
 
         return PostEntity.builder()
                 .poster(userEntity)

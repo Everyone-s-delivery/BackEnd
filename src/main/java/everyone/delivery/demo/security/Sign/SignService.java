@@ -1,9 +1,8 @@
 package everyone.delivery.demo.security.Sign;
 
+import everyone.delivery.demo.common.exception.ExceptionUtils;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.UserError;
-import everyone.delivery.demo.domain.postComment.PostCommentEntity;
-import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import everyone.delivery.demo.security.JWT.JwtTokenProvider;
 import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.UserEntity;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -37,19 +37,16 @@ public class SignService {
      * @return
      */
     public TokenResult signin(String email, String password) {
-        UserEntity findedUserEntity = userRepository.findByEmail(email);
-        if(findedUserEntity == null ) {
-            log.error("login fail, check email. email: {}", email);
-            throw new LogicalRuntimeException(UserError.LOGIN_FAIL_EMAIL);
-        }
+        Optional<UserEntity> findUserEntityOp = userRepository.findByEmail(email);
+        UserEntity findUserEntity = ExceptionUtils.ifNullThrowElseReturnVal(findUserEntityOp,"login fail, check email. email: {}", email);
 
-        if (!passwordEncoder.matches(password, findedUserEntity.getPassword())){
+        if (!passwordEncoder.matches(password, findUserEntity.getPassword())){
             log.error("login fail, check password. password: {}", password);
             throw new LogicalRuntimeException(UserError.LOGIN_FAIL_PASSWORD);
         }
 
         return new TokenResult(
-                jwtTokenProvider.createToken(String.valueOf(findedUserEntity.getEmail()), findedUserEntity.getRoles()),findedUserEntity.getUserId());
+                jwtTokenProvider.createToken(String.valueOf(findUserEntity.getEmail()), findUserEntity.getRoles()),findUserEntity.getUserId());
     }
 
     /***
