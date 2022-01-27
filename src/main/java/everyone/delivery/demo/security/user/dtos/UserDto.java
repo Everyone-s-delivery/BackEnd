@@ -1,6 +1,7 @@
 package everyone.delivery.demo.security.user.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import everyone.delivery.demo.common.validation.annotaion.NotDuplicatedEmail;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRole;
 import lombok.AllArgsConstructor;
@@ -26,10 +27,12 @@ public class UserDto implements UserDetails {
 
     private Long userId;
 
+    @NotDuplicatedEmail(message = "invalid user data. email dose not duplicated")
     @NotNull(message = "Not enough user data. email cannot be null.")
     @Email(message = "invalid email form.")
     private String email;
 
+    @NotDuplicatedEmail(message = "invalid user data. nickName dose not duplicated")
     @NotNull(message = "Not enough user data. nickName cannot be null.")
     private String nickName;
 
