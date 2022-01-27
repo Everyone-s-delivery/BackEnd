@@ -1,6 +1,6 @@
 package everyone.delivery.demo.common.validation.annotaion;
 
-import everyone.delivery.demo.common.validation.validator.NotDuplicatedEmailValidator;
+import everyone.delivery.demo.common.validation.validator.NotOverlappedNickNameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 
 @Target(value = {ElementType.FIELD, ElementType.PARAMETER})          //파라미터, 필드에 붙을 수 있다는 의미
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NotDuplicatedEmailValidator.class)
-public @interface NotDuplicatedEmail {
+@Constraint(validatedBy = NotOverlappedNickNameValidator.class)
+public @interface NotOverlappedNickName {
     String message() default "Not allowed duplicated value";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

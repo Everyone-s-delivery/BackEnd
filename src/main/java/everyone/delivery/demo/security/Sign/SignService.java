@@ -55,9 +55,6 @@ public class SignService {
      * @return
      */
     public UserDto signup(CreateUserDto createUserDto) {
-        ExceptionUtils
-                .ifNotNullThrow(userRepository.findByEmail(createUserDto.getEmail()),"email overlap. email: {}", createUserDto.getEmail());
-
         List<UserRole> roles = new ArrayList<>();
         roles.add(UserRole.ROLE_PARTICIPANTS);
         roles.add(UserRole.ROLE_RECRUITER);
