@@ -1,8 +1,7 @@
 package everyone.delivery.demo.security.user;
 import everyone.delivery.demo.common.exception.ExceptionUtils;
-import everyone.delivery.demo.common.exception.LogicalRuntimeException;
-import everyone.delivery.demo.common.exception.error.CommonError;
-import everyone.delivery.demo.security.user.dtos.BasicUserDto;
+import everyone.delivery.demo.security.user.dtos.CreateUserDto;
+import everyone.delivery.demo.security.user.dtos.UpdateUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,18 +68,18 @@ public class CustomUserDetailService implements UserDetailsService {
 	
 	/**
 	 * {userId}에 해당하는 사용자 수정
-	 * @param userDto
+	 * @param updateUserDto
 	 * @return
 	 * **/
-	public UserDto update(Long userId, BasicUserDto userDto) {
-		if(userRepository.findByUserId(userId) ==null){
-			log.error("There is no corresponding information for userId. userId: {}", userId);
-			throw new LogicalRuntimeException(CommonError.INVALID_DATA);
-		}
+	public UserDto update(Long userId, UpdateUserDto updateUserDto) {
+		Optional<UserEntity> userEntityOp = userRepository.findByUserId(userId);
+		UserEntity userEntity = ExceptionUtils
+				.ifNullThrowElseReturnVal(userEntityOp,"There is no corresponding information for userId. userId: {}", userId);
 
-		UserEntity userEntity = userDto.toEntity();
-		userEntity.setUserId(userId);
+		userEntity.setEmail(updateUserDto.getEmail());
 		userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+		userEntity.setNickName(updateUserDto.getNickName());
+		userEntity.setAddress(updateUserDto.getAddress());
 		userEntity = userRepository.save(userEntity);
 		return userEntity.toDTO();
 	}

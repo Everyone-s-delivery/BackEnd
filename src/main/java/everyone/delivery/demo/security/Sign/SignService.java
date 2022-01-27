@@ -8,7 +8,7 @@ import everyone.delivery.demo.security.Sign.model.TokenResult;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import everyone.delivery.demo.security.user.UserRole;
-import everyone.delivery.demo.security.user.dtos.BasicUserDto;
+import everyone.delivery.demo.security.user.dtos.CreateUserDto;
 import everyone.delivery.demo.security.user.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 
@@ -51,28 +51,26 @@ public class SignService {
 
     /***
      * 회원가입
-     * @param basicUserDto
+     * @param createUserDto
      * @return
      */
-    public UserDto signup(BasicUserDto basicUserDto) {
-        if(userRepository.findByEmail(basicUserDto.getEmail()) != null){
-            log.error("email overlap. email: {}", basicUserDto.getEmail());
-            throw new LogicalRuntimeException(UserError.SIGNUP_FAIL_EMAIL_OVERLAP);
-        }
+    public UserDto signup(CreateUserDto createUserDto) {
+        ExceptionUtils
+                .ifNotNullThrow(userRepository.findByEmail(createUserDto.getEmail()),"email overlap. email: {}", createUserDto.getEmail());
 
         List<UserRole> roles = new ArrayList<>();
         roles.add(UserRole.ROLE_PARTICIPANTS);
         roles.add(UserRole.ROLE_RECRUITER);
-        if(basicUserDto.getEmail().equals("admin@admin.com"))
+        if(createUserDto.getEmail().equals("admin@admin.com"))
             roles.add(UserRole.ROLE_ADMIN);
 
-        UserEntity userEntity = convertDTOToEntity(basicUserDto,roles);
+        UserEntity userEntity = convertDTOToEntity(createUserDto,roles);
 
         userEntity = userRepository.save(userEntity);
         return userEntity.toDTO();
     }
 
-    public UserEntity convertDTOToEntity(BasicUserDto basicUserDto, List<UserRole> roles){
+    public UserEntity convertDTOToEntity(CreateUserDto basicUserDto, List<UserRole> roles){
         return UserEntity.builder()
                 .email(basicUserDto.getEmail())
                 .nickName(basicUserDto.getNickName())

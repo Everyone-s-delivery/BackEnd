@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BasicUserDto {
+public class UpdateUserDto {
 
     @NotNull(message = "Not enough user data. email cannot be null.")
     @Email(message = "invalid email form.")

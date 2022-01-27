@@ -31,5 +31,16 @@ public class ExceptionUtils<T> {
         });
     }
 
-
+    /***
+     * @param optionalT
+     * @param logMsg
+     * @param logParam
+     * optionalT 속에 값이 있으면 LogicalRuntimeException을 던진다.
+     */
+    public static void ifNotNullThrow(Optional<?> optionalT, String logMsg, Object logParam){
+        if(optionalT.isPresent()){
+            log.error(logMsg, logParam);
+            throw new LogicalRuntimeException(CommonError.INVALID_DATA);
+        }
+    }
 }

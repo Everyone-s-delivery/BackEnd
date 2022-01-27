@@ -1,7 +1,8 @@
 package everyone.delivery.demo.security.user;
 
 import everyone.delivery.demo.common.response.ResponseUtils;
-import everyone.delivery.demo.security.user.dtos.BasicUserDto;
+import everyone.delivery.demo.security.user.dtos.CreateUserDto;
+import everyone.delivery.demo.security.user.dtos.UpdateUserDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -81,8 +82,8 @@ public class UserController {
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(관리자 토큰)", required = true, dataType = "String", paramType = "header")
 	})
 	public ResponseEntity update(@PathVariable @Min(value = 1, message = "userId cannot be minus.") Long userId,
-								 @Valid @RequestBody BasicUserDto userDto) {
-		return ResponseUtils.out(customUserDetailService.update(userId ,userDto));
+								 @Valid @RequestBody UpdateUserDto updateUserDto) {
+		return ResponseUtils.out(customUserDetailService.update(userId ,updateUserDto));
 	}
 	
 	/**
