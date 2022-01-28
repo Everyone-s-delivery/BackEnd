@@ -31,7 +31,7 @@ public class FileController {
     private final FileService fileService;
     private final FileConfiguration fileConfiguration;
 
-    @PostMapping("")
+    @PostMapping("/img")
     @ApiOperation(value = "이미지 파일 업로드", notes = "파일을 업로드 할 수 있습니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
@@ -42,18 +42,18 @@ public class FileController {
         return ResponseUtils.out("serverFileName: " + serverFileName);
     }
 
-    @GetMapping("/{fileName}")
+    @GetMapping("/img/{fileName}")
     @ApiOperation(value = "이미지 파일 보기", notes = "서버에 업로드한 이미지 파일을 볼 수 있습니다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
     })
     public ResponseEntity display(
             @RequestHeader("User-Agent") String agent,
-            @PathVariable String fileName){
-        AbstractMap.SimpleEntry<Resource, String> resInfo = fileService.getFile(fileName);
+            @PathVariable String serverFileName){
+        AbstractMap.SimpleEntry<Resource, String> resInfo = fileService.getFile(serverFileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(resInfo.getValue()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileService.convertFileName(fileName, agent) + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileService.convertFileName(serverFileName, agent) + "\"")
                 .body(resInfo.getKey());
     }
 }

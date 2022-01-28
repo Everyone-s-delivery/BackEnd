@@ -3,6 +3,7 @@ package everyone.delivery.demo.domain.file;
 import everyone.delivery.demo.common.configuration.FileConfiguration;
 import everyone.delivery.demo.common.exception.LogicalRuntimeException;
 import everyone.delivery.demo.common.exception.error.CommonError;
+import everyone.delivery.demo.common.exception.error.FileError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -13,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -35,6 +35,10 @@ public class FileService {
 
     public String saveMultipartFile(MultipartFile mpFiles) throws IOException {
         String fileExtension = FilenameUtils.getExtension( mpFiles.getOriginalFilename());
+        if(!isImg(fileExtension)){
+            log.error("It's not an image file. fileExtension: {}", fileExtension);
+            throw new LogicalRuntimeException(FileError.NOT_IMAGE_EXTENSION);
+        }
 
         String fileUuid = UUID.randomUUID().toString();
         String serverFileName = fileUuid + "." + fileExtension;
@@ -50,6 +54,11 @@ public class FileService {
     }
 
     public AbstractMap.SimpleEntry<Resource, String> getFile(String serverFileName){
+        String fileExtension = FilenameUtils.getExtension(serverFileName);
+        if(!isImg(fileExtension)){
+            log.error("It's not an image file. fileExtension: {}", fileExtension);
+            throw new LogicalRuntimeException(FileError.NOT_IMAGE_EXTENSION);
+        }
         Path filePath = Paths.get(fileConfiguration.getPath()).toAbsolutePath().
                 resolve(serverFileName).normalize();
 
@@ -88,5 +97,15 @@ public class FileService {
             log.error("fail to file encoding to UTF-8", ex);
             return fileName;
         }
+    }
+
+    /**
+     * fileExtension이 이미지 확장자인지 확인
+     * 이미지 확장자면 true
+     * @param fileExtension
+     * @return
+     */
+    public boolean isImg(String fileExtension){
+        return fileExtension.equals("jpg") || fileExtension.equals("png") ||fileExtension.equals("jpeg") ||fileExtension.equals("gif");
     }
 }
