@@ -12,6 +12,7 @@ import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +23,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostService {
 
-    private PostRepository postRepository;
-    private UserRepository userRepository;
-    private PostCommentService postCommentService;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final PostCommentService postCommentService;
 
     /***
      * 조회

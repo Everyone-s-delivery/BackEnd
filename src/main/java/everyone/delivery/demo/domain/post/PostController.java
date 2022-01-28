@@ -5,6 +5,7 @@ import everyone.delivery.demo.domain.post.dtos.CreatePostDto;
 import everyone.delivery.demo.domain.post.dtos.UpdatePostDto;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,11 +18,11 @@ import javax.validation.constraints.Min;
 @Api(tags = {"* 모집 글 API(사용자[모집자 또는 참여자] 권한)"})
 @RestController
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     @GetMapping("")
     @ApiOperation(value = "글 리스트 조회", notes = "글 리스트를 조회할 수 있습니다.")

@@ -4,6 +4,7 @@ import everyone.delivery.demo.common.response.ResponseUtils;
 import everyone.delivery.demo.domain.postComment.dtos.CreatePostCommentDto;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,11 +19,11 @@ import javax.validation.constraints.NotNull;
 @Api(tags = {"* 모집 덧글 API(사용자[모집자 또는 참여자] 권한)"})
 @RestController
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/post/comments")
 public class PostCommentController {
 
-    private PostCommentService postCommentService;
+    private final PostCommentService postCommentService;
 
     @GetMapping("{postCommentId}")
     @ApiOperation(value = "덧글 개별 조회", notes = "postCommentId에 해당하는 덧글을 조회할 수 있습니다.")

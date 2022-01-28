@@ -10,6 +10,7 @@ import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostCommentService {
 
-    private PostCommentRepository postCommentRepository;
-    private PostRepository postRepository;
-    private UserRepository userRepository;
+    private final PostCommentRepository postCommentRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
 
     /***
