@@ -8,21 +8,15 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.UUID;
+import java.util.AbstractMap;
 
 /***
  * 원본파일 처리를 위한 컨트롤러
@@ -34,18 +28,32 @@ import java.util.UUID;
 @RequestMapping("/file")
 public class FileController {
 
-    private FileService fileService;
+    private final FileService fileService;
+    private final FileConfiguration fileConfiguration;
 
     @PostMapping("")
-    @ApiOperation(value = "파일 업로드", notes = "파일을 업로드 할 수 있습니다.")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
-//    })
+    @ApiOperation(value = "이미지 파일 업로드", notes = "파일을 업로드 할 수 있습니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
+    })
     public ResponseEntity upload(
             @RequestPart(value = "attachedFile", required=false) MultipartFile attachedFile) throws IOException {
-
-        String fileUuid = fileService.saveMultipartFile(attachedFile);
-        return ResponseUtils.out("uuid: " + fileUuid);
+        String serverFileName = fileService.saveMultipartFile(attachedFile);
+        return ResponseUtils.out("serverFileName: " + serverFileName);
     }
 
+    @GetMapping("/{fileName}")
+    @ApiOperation(value = "이미지 파일 보기", notes = "서버에 업로드한 이미지 파일을 볼 수 있습니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token(사용자 토큰)", required = true, dataType = "String", paramType = "header")
+    })
+    public ResponseEntity display(
+            @RequestHeader("User-Agent") String agent,
+            @PathVariable String fileName){
+        AbstractMap.SimpleEntry<Resource, String> resInfo = fileService.getFile(fileName);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(resInfo.getValue()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileService.convertFileName(fileName, agent) + "\"")
+                .body(resInfo.getKey());
+    }
 }
