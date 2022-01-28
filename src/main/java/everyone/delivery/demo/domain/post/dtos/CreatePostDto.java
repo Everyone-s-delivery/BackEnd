@@ -1,6 +1,7 @@
 package everyone.delivery.demo.domain.post.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import everyone.delivery.demo.common.validation.annotaion.MustExistUserId;
 import everyone.delivery.demo.domain.postComment.dtos.PostCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import java.util.List;
 @Builder
 public class CreatePostDto {
 
+    @MustExistUserId
     @Min(value = 1, message = "posterId cannot be minus.")
     @NotNull(message = "Not enough post data. posterId cannot be null.")
     private Long posterId;          // 모집글에 대한 작성자 아이디

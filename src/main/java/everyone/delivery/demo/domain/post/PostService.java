@@ -65,11 +65,6 @@ public class PostService {
      */
     @Transactional
     public PostDto create(CreatePostDto createPostDto){
-        ExceptionUtils.ifNullThrowElseReturnVal(
-                        userRepository.findById(createPostDto.getPosterId()),
-                        "poster is null. posterId: {}",
-                        createPostDto.getPosterId());
-
         PostEntity postEntity = convertDTOToEntity(createPostDto);
         postEntity = postRepository.save(postEntity);
         return postEntity.toDto();
