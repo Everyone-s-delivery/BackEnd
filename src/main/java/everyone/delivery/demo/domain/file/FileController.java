@@ -34,7 +34,7 @@ import java.util.UUID;
 @RequestMapping("/file")
 public class FileController {
 
-    private final FileConfiguration fileConfiguration;
+    private FileService fileService;
 
     @PostMapping("")
     @ApiOperation(value = "파일 업로드", notes = "파일을 업로드 할 수 있습니다.")
@@ -44,20 +44,8 @@ public class FileController {
     public ResponseEntity upload(
             @RequestPart(value = "attachedFile", required=false) MultipartFile attachedFile) throws IOException {
 
-        String fileUuid = saveMultipartFile(attachedFile);
-        return ResponseUtils.out(fileUuid);
+        String fileUuid = fileService.saveMultipartFile(attachedFile);
+        return ResponseUtils.out("uuid: " + fileUuid);
     }
 
-    public String saveMultipartFile(MultipartFile mpFiles) throws IOException {
-        String fileUuid = UUID.randomUUID().toString();
-
-        Path fileDirectoryPath = Paths.get(fileConfiguration.getPath()).toAbsolutePath().normalize();
-        if(Files.notExists(fileDirectoryPath))
-            Files.createDirectories(fileDirectoryPath);
-        Path filePath = fileDirectoryPath.resolve(fileUuid).normalize();
-
-        //file uuid가 고유하기 때문에 사실상 덮어쓸 일이 없음(파일은 수정의 개념이 없고 추가 삭제에 대한 개념만 있음)
-        Files.copy(mpFiles.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-        return fileUuid;
-    }
 }
