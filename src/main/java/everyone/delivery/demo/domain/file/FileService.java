@@ -106,6 +106,7 @@ public class FileService {
      * @return
      */
     public boolean isImg(String fileExtension){
+        fileExtension = fileExtension.toLowerCase();
         return fileExtension.equals("jpg") || fileExtension.equals("png") ||fileExtension.equals("jpeg") ||fileExtension.equals("gif");
     }
 }
