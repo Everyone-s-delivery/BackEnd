@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.AbstractMap;
+import java.util.Locale;
 import java.util.UUID;
 
 /***
@@ -106,7 +107,7 @@ public class FileService {
      * @return
      */
     public boolean isImg(String fileExtension){
-        fileExtension = fileExtension.toLowerCase();
+        fileExtension = fileExtension.toLowerCase(Locale.getDefault());
         return fileExtension.equals("jpg") || fileExtension.equals("png") ||fileExtension.equals("jpeg") ||fileExtension.equals("gif");
     }
 }
