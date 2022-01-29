@@ -5,16 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
+import java.util.EnumSet;
+
 @Getter
+@AllArgsConstructor
 public enum UserError implements RestError{
 
-    SIGNUP_FAIL_EMAIL_OVERLAP(HttpStatus.BAD_REQUEST, "회원가입 실패. 중복된 이메일이 있습니다."),
-    LOGIN_FAIL_PASSWORD(HttpStatus.BAD_REQUEST, "로그인 실패. 비밀번호를 확인해 주세요."),
-    LOGIN_FAIL_EMAIL(HttpStatus.BAD_REQUEST, "로그인 실패. 이메일을 확인해 주세요.");
+    OVERLAP_EMAIL(HttpStatus.BAD_REQUEST, "중복된 이메일이 있습니다."),
+    OVERLAP_NICKNAME(HttpStatus.BAD_REQUEST, "중복된 닉네임이 있습니다."),
+
+    INVALID_USER_ID(HttpStatus.BAD_REQUEST, "올바른 사용자 아이디가 아닙니다. 사용자 아이디를 확인해 주세요."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "올바른 비밀번호가 아닙니다. 비밀번호를 확인해 주세요."),
+    INVALID_EMAIL(HttpStatus.BAD_REQUEST, "올바른 이메일이 아닙니다. 이메일을 확인해 주세요.");
 
     private HttpStatus httpStatus;
     private String errorMsg;
+
+    @Override
+    public String toString(){
+        return this.name();
+    }
 
     @Override
     public ResponseError toResponseError(){

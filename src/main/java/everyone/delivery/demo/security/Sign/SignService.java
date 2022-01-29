@@ -42,7 +42,7 @@ public class SignService {
 
         if (!passwordEncoder.matches(password, findUserEntity.getPassword())){
             log.error("login fail, check password. password: {}", password);
-            throw new LogicalRuntimeException(UserError.LOGIN_FAIL_PASSWORD);
+            throw new LogicalRuntimeException(UserError.INVALID_PASSWORD);
         }
 
         return new TokenResult(

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.EnumSet;
+
 /***
  * 미리 정의해 둔 에러들
  */
@@ -19,6 +21,11 @@ public enum CommonError implements RestError{
 
     private HttpStatus httpStatus;
     private String errorMsg;
+
+    @Override
+    public String toString(){
+        return this.name();
+    }
 
     @Override
     public ResponseError toResponseError(){

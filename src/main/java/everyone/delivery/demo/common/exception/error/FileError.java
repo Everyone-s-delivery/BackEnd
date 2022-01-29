@@ -5,14 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
+import java.util.EnumSet;
+
 @Getter
+@AllArgsConstructor
 public enum FileError implements RestError{
 
     NOT_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "파일 처리 실패. 이미지 파일이 아닙니다.");
 
     private HttpStatus httpStatus;
     private String errorMsg;
+
+    @Override
+    public String toString(){
+        return this.name();
+    }
 
     @Override
     public ResponseError toResponseError(){

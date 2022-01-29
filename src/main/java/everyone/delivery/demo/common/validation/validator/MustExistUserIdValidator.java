@@ -1,5 +1,6 @@
 package everyone.delivery.demo.common.validation.validator;
 
+import everyone.delivery.demo.common.exception.error.UserError;
 import everyone.delivery.demo.common.validation.annotaion.MustExistUserId;
 import everyone.delivery.demo.security.user.UserEntity;
 import everyone.delivery.demo.security.user.UserRepository;
@@ -18,11 +19,19 @@ public class MustExistUserIdValidator implements ConstraintValidator<MustExistUs
 
     private UserRepository userRepository;
 
+    /***
+     *
+     * @param userId
+     * @param context
+     * @return
+     */
     @Override
-    public boolean isValid(Long userId, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Long userId, ConstraintValidatorContext context) {
         Optional<UserEntity> byId = userRepository.findById(userId);
         if(!byId.isPresent()){
             log.error("This user does not exist. userId: {}", userId);
+            context.buildConstraintViolationWithTemplate(UserError.INVALID_USER_ID.name())
+                    .addConstraintViolation();
             return false;   //존재하지 않는다
         }
         else
