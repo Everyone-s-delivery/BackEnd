@@ -20,7 +20,7 @@ with:
 path: ~/.m2
 key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 restore-keys: ${{ runner.os }}-m2
-  # Build
+  # Builds
   - name: Build with Maven
 run: mvn -Dmaven.test.skip=true -B package --file pom.xml
   # 전송할 파일을 담을 디렉토리 생성
