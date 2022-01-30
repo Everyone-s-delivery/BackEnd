@@ -111,6 +111,7 @@ public class CustomUserDetailService implements UserDetailsService {
         return UserDto.builder()
         				.userId(userEntity.getUserId())
         				.email(userEntity.getEmail())
+						.nickName(userEntity.getNickName())
         				.password(userEntity.getPassword())
         				.roles(userEntity.getRoles())
 						.address(userEntity.getAddress())

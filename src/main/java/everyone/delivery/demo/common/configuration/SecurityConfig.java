@@ -48,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/signup",
 						"/JWTException/**",
 						"/actuator",
-						"/img/*")
+						"/img/*",
+						"/h2-console")
 				.permitAll() // 누구나 접근가능
 				.antMatchers("/users","/users/*").hasRole("ADMIN")
 				.anyRequest().hasAnyRole("PARTICIPANTS", "RECRUITER", "ADMIN") // 그외 나머지 요청은 모두 인증된 회원(사용자[참여자 또는 모집자] + 관리자)만 접근 가능
