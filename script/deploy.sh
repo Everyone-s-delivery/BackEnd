@@ -19,5 +19,5 @@ else
 fi
 
 echo "> $JAR_PATH deploy"
-nohup java -jar $JAR_PATH &
-#nohup java -jar $JAR_PATH --spring.profiles.active=dev > /dev/null 2> /dev/null < /dev/null &
+#nohup java -jar $JAR_PATH &
+nohup java -jar $JAR_PATH --spring.profiles.active=dev > /dev/null 2> /dev/null < /dev/null &
